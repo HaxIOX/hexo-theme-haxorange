@@ -5,6 +5,10 @@ searchNoResult: Sin resultados
 searchFilesNotfound: The search.xml file was not found, please refer to：
 searchServiceErrors: The request failed, Try to refresh the page or try again later.
 tags: Tags
+popular_tags: Etiquetas populares
+all_tags: Todas las etiquetas
+filter_tags: Filtrar etiquetas
+no_tags_found: No se encontraron etiquetas
 tagcloud: Nube de Tags
 tweets: Tweets
 prev: Previo

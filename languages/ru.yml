@@ -5,6 +5,10 @@ searchNoResult: Содержание не найдено, пожалуйста, 
 searchFilesNotfound: The search.xml file was not found, please refer to：
 searchServiceErrors: The request failed, Try to refresh the page or try again later.
 tags: Метки
+popular_tags: Популярные теги
+all_tags: Все теги
+filter_tags: Фильтр тегов
+no_tags_found: Теги не найдены
 tagcloud: Облако меток
 tweets: Твиты
 prev: Назад

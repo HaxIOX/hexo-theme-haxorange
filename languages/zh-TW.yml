@@ -5,6 +5,10 @@ searchNoResult: 沒有找到内容，請嘗試更換檢索詞。
 searchFilesNotfound: 未找到search.xml文件，具體請參考：
 searchServiceErrors: 請求失敗，嘗試重新刷新頁面或稍後重試。
 tags: 標籤
+popular_tags: 熱門標籤
+all_tags: 全部標籤
+filter_tags: 篩選標籤
+no_tags_found: 沒有找到標籤
 tagcloud: 標籤雲
 tweets: 推文
 prev: 上一頁

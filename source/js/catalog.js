@@ -1,69 +1,129 @@
 // catalog js
-let catalog = document.getElementById("catalog");
-let catalogTopHeight = catalog.offsetTop;
-let tocElement = document.getElementsByClassName("catalog-content")[0]
+(function () {
+  const mobileBreakpoint = 1080
+  const catalog = document.getElementById("catalog")
+  const catalogButton = document.getElementById("btn-catalog")
+  const catalogBackdrop = document.getElementById("catalog-backdrop")
+  const tocElement = catalog && catalog.querySelector(".catalog-content")
+  const postDetails = document.getElementById("post-details")
+  const postContent = postDetails && postDetails.querySelector(".post-content")
 
-// 是否固定目录
-function changePos() {
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-  if (scrollTop > catalogTopHeight - 20) {
-    catalog.style = "position: fixed; top: 20px; bottom: 20px;"
-  } else {
-    catalog.style = "position: absolute; top: calc(290px + 88px + 30px)"
+  if (!catalog || !catalogButton || !tocElement || !postDetails) return
+
+  postDetails.classList.add("has-catalog")
+
+  let headingPairs = []
+  let activeLink = null
+  let ticking = false
+
+  function findHeading(link, index) {
+    const hash = link.hash || link.getAttribute("href")
+
+    if (hash && hash.charAt(0) === "#") {
+      try {
+        const heading = document.getElementById(decodeURIComponent(hash.slice(1)))
+        if (heading) return heading
+      } catch (error) {
+        // Fall back to the rendered heading order for malformed legacy anchors.
+      }
+    }
+
+    const headerLinks = postContent ? postContent.querySelectorAll(".headerlink") : []
+    return headerLinks[index] && headerLinks[index].parentElement
   }
-}
 
-// 是否激活目录
-function isActiveCat() {
-  // 可宽限高度值
-  let offsetHeight = 20
+  function refreshHeadings() {
+    const tocLinks = Array.from(tocElement.querySelectorAll(".toc-link"))
+    headingPairs = tocLinks.map(function (link, index) {
+      return { link: link, heading: findHeading(link, index) }
+    }).filter(function (pair) {
+      return pair.heading
+    })
+    updateActiveCatalog()
+  }
 
-  // 当前页面滚动位置距页面顶部的高度值
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  function setActiveLink(link) {
+    if (activeLink === link) return
+    if (activeLink) activeLink.classList.remove("active")
 
-  // 页面所有标题列表
-  let headerLinkList = document.getElementsByClassName("headerlink")
+    activeLink = link
+    if (!activeLink) return
 
-  if (!headerLinkList.length) return
+    activeLink.classList.add("active")
+    const contentRect = tocElement.getBoundingClientRect()
+    const linkRect = activeLink.getBoundingClientRect()
 
-  // 页面所有目录列表
-  let catLinkList = document.getElementsByClassName("toc-link")
-
-  for(let i = 0; i < catLinkList.length; i++) {
-    let currentTopCat = headerLinkList[i].offsetTop - offsetHeight
-    let nextTopCat = i + 1 === headerLinkList.length ?
-        Infinity : headerLinkList[i+1].offsetTop - offsetHeight
-
-    if (scrollTop >= currentTopCat && scrollTop < nextTopCat) {
-      // 目录跟随滚动
-      catLinkList[i].className = "toc-link active"
-      tocElement.scrollTop = catLinkList[i].offsetTop - 32
-    } else {
-      catLinkList[i].className = "toc-link"
+    if (linkRect.top < contentRect.top) {
+      tocElement.scrollTop -= contentRect.top - linkRect.top
+    } else if (linkRect.bottom > contentRect.bottom) {
+      tocElement.scrollTop += linkRect.bottom - contentRect.bottom
     }
   }
-}
 
-// 窗体高度变化时
-function handleResize() {
-  let windowHeight = document.documentElement.clientHeight
-  tocElement.setAttribute('style', `height: ${windowHeight - 90}px`);
-}
+  function updateActiveCatalog() {
+    ticking = false
+    if (!headingPairs.length) return
 
-// 小屏下（屏宽小于888px）是否展开目录
-function openOrHiddenCatalog() {
-  let isHidden = catalog.classList.contains('hidden')
-  if (isHidden) {
-    catalog.classList.remove('hidden')
-  } else {
-    catalog.classList.add('hidden')
+    const offset = 32
+    let current = headingPairs[0]
+
+    headingPairs.forEach(function (pair) {
+      if (pair.heading.getBoundingClientRect().top <= offset) current = pair
+    })
+
+    setActiveLink(current.link)
   }
-}
 
-changePos();
-isActiveCat();
-handleResize();
-document.addEventListener("scroll", changePos, false);
-document.addEventListener("scroll", isActiveCat, false);
-window.addEventListener("resize", handleResize, false);
-document.querySelector("#btn-catalog").addEventListener("click", openOrHiddenCatalog, false);
+  function requestActiveUpdate() {
+    if (ticking) return
+    ticking = true
+    window.requestAnimationFrame(updateActiveCatalog)
+  }
+
+  function isMobileCatalog() {
+    return window.innerWidth <= mobileBreakpoint
+  }
+
+  function setCatalogOpen(open) {
+    const mobile = isMobileCatalog()
+    const shouldOpen = mobile && open
+    catalog.classList.toggle("hidden", !shouldOpen)
+    catalogButton.setAttribute("aria-expanded", String(shouldOpen))
+    catalog.setAttribute("aria-hidden", String(mobile && !shouldOpen))
+    document.body.classList.toggle("catalog-open", shouldOpen)
+  }
+
+  catalogButton.addEventListener("click", function () {
+    setCatalogOpen(catalog.classList.contains("hidden"))
+  })
+
+  catalogBackdrop.addEventListener("click", function () {
+    setCatalogOpen(false)
+  })
+
+  tocElement.addEventListener("click", function (event) {
+    if (isMobileCatalog() && event.target.closest(".toc-link")) setCatalogOpen(false)
+  })
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") setCatalogOpen(false)
+  })
+
+  document.addEventListener("scroll", requestActiveUpdate, { passive: true })
+  window.addEventListener("resize", function () {
+    if (!isMobileCatalog()) {
+      setCatalogOpen(false)
+    } else {
+      catalog.setAttribute("aria-hidden", String(catalog.classList.contains("hidden")))
+    }
+    requestActiveUpdate()
+  })
+
+  if (postContent && window.MutationObserver) {
+    const observer = new MutationObserver(refreshHeadings)
+    observer.observe(postContent, { childList: true, subtree: true })
+  }
+
+  refreshHeadings()
+  setCatalogOpen(false)
+}())

@@ -11,11 +11,7 @@
 
 <% if (page.type === "tags") { %>
   <!-- 标签页 url形式：https://yoursite/tags/ -->
-  <div class="container tag-index">
-    <div>
-      <%- list_tags({ class: "tag" }) %>
-    </div>
-  </div>
+  <%- partial('_partial/tag-index') %>
   <% } %>
 
   <% if (page.type === "categories") { %>

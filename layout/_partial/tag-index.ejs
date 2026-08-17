@@ -1,0 +1,86 @@
+<%
+  var allTags = (site.tags && site.tags.data ? site.tags.data : []).slice();
+
+  function tagPostCount(tag) {
+    if (typeof tag.length === 'number') return tag.length;
+    return tag.posts && typeof tag.posts.length === 'number' ? tag.posts.length : 0;
+  }
+
+  allTags.sort(function(a, b) {
+    var countDiff = tagPostCount(b) - tagPostCount(a);
+    if (countDiff !== 0) return countDiff;
+
+    var aName = String(a.name || '').toLowerCase();
+    var bName = String(b.name || '').toLowerCase();
+    if (aName < bName) return -1;
+    if (aName > bName) return 1;
+    return String(a.name || '').localeCompare(String(b.name || ''));
+  });
+
+  var popularTags = allTags.slice(0, 8);
+  var showFilter = allTags.length > 12;
+%>
+
+<div class="container tag-index" data-tag-index>
+  <header class="tag-index-header">
+    <h1><%= __('tags') %></h1>
+    <span class="tag-index-total"><%= allTags.length %></span>
+  </header>
+
+  <% if (allTags.length > 0) { %>
+    <section class="tag-section" aria-labelledby="popular-tags-title">
+      <h2 id="popular-tags-title" class="tag-section-title"><%= __('popular_tags') %></h2>
+      <div class="tag-popular-list">
+        <% popularTags.forEach(function(tag) { %>
+          <a class="tag-popular-item" href="<%= url_for(tag.path) %>">
+            <span class="tag-name">#<%= tag.name %></span>
+            <span class="tag-count"><%= tagPostCount(tag) %></span>
+          </a>
+        <% }); %>
+      </div>
+    </section>
+
+    <section class="tag-section" aria-labelledby="all-tags-title">
+      <div class="tag-directory-header">
+        <h2 id="all-tags-title" class="tag-section-title"><%= __('all_tags') %></h2>
+        <% if (showFilter) { %>
+          <label class="tag-filter">
+            <span class="tag-filter-label"><%= __('filter_tags') %></span>
+            <input
+              type="search"
+              inputmode="search"
+              autocomplete="off"
+              placeholder="<%= __('filter_tags') %>"
+              aria-controls="tag-directory"
+              data-tag-filter
+            >
+          </label>
+        <% } %>
+      </div>
+
+      <div id="tag-directory" class="tag-directory" data-tag-directory>
+        <% allTags.forEach(function(tag) { %>
+          <a
+            class="tag-directory-item"
+            href="<%= url_for(tag.path) %>"
+            data-tag-item
+            data-tag-name="<%= String(tag.name || '').toLowerCase() %>"
+          >
+            <span class="tag-name"><%= tag.name %></span>
+            <span class="tag-count"><%= tagPostCount(tag) %></span>
+          </a>
+        <% }); %>
+      </div>
+
+      <% if (showFilter) { %>
+        <p class="tag-filter-empty" data-tag-filter-empty hidden><%= __('no_tags_found') %></p>
+      <% } %>
+    </section>
+  <% } else { %>
+    <p class="tag-empty"><%= __('no_tags_found') %></p>
+  <% } %>
+</div>
+
+<% if (showFilter) { %>
+  <%- js(['/js/tagFilter.js']) %>
+<% } %>

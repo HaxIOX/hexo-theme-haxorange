@@ -1,7 +1,7 @@
 <% if (theme.catalog.enable && (toc(page.content) || toc(page.origin))) { %>
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="<%= __('catalog') %>" title="<%= __('catalog') %>">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title"><%= __('catalog') %></div>
     <div class="catalog-content">
@@ -12,6 +12,7 @@
       <% } %>
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   <%- js(['/js/catalog.js']) %>
 

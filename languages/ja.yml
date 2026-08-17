@@ -5,6 +5,10 @@ searchNoResult: 内容が見つからないので、検索語を変えてみて�
 searchFilesNotfound: The search.xml file was not found, please refer to：
 searchServiceErrors: The request failed, Try to refresh the page or try again later.
 tags: タグ
+popular_tags: 人気のタグ
+all_tags: すべてのタグ
+filter_tags: タグを絞り込む
+no_tags_found: タグが見つかりません
 tagcloud: タグクラウド
 tweets: ツイート
 prev: 戻る

@@ -5,6 +5,10 @@ searchNoResult: 没有找到内容，请尝试更换检索词。
 searchFilesNotfound: 未找到search.xml文件，具体请参考：
 searchServiceErrors: 请求失败，尝试重新刷新页面或稍后重试。
 tags: 标签
+popular_tags: 热门标签
+all_tags: 全部标签
+filter_tags: 筛选标签
+no_tags_found: 没有找到标签
 tagcloud: 标签云
 tweets: 推文
 prev: 上一页

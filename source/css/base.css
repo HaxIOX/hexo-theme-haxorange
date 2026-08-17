@@ -446,6 +446,14 @@ a:hover {
   align-items: center;
 }
 
+.post-attach .post-tags, .post-attach .post-categories {
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
 @media (max-width: 768px) {
   .time-m-d {
     margin-right: 15px;

@@ -5,6 +5,10 @@ searchNoResult: Aucun contenu n’a été trouvé, essayez de remplacer le terme
 searchFilesNotfound: The search.xml file was not found, please refer to：
 searchServiceErrors: The request failed, Try to refresh the page or try again later.
 tags: Mot-clés
+popular_tags: Tags populaires
+all_tags: Tous les tags
+filter_tags: Filtrer les tags
+no_tags_found: Aucun tag trouvé
 tagcloud: Nuage de mot-clés
 tweets: Tweets
 prev: Précédent

@@ -1,28 +1,54 @@
 <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
 
-<div class="container tag-details">
-  <div class="content-title">
-    <h2>
-      <span><%- page.tag %></span>
-    </h2>
-  </div>
-  <% page.posts.sort('date', -1).each(function(item) { %>
-    <div class="post-list">
-      <div class="post-item" title="<%- item.title %>">
-        <span class="time-m-d"><%- item.date.format("YYYY-MM-DD") %></span>
-        <a href="<%- url_for(item.path) %>">
-          <span><%- item.title %></span>
-        </a>
+<%
+  var tagPostCount = page.posts.length;
+  var siteTags = site.tags && site.tags.data ? site.tags.data : [];
+  for (var tagIndex = 0; tagIndex < siteTags.length; tagIndex += 1) {
+    if (siteTags[tagIndex].name === page.tag) {
+      tagPostCount = typeof siteTags[tagIndex].length === 'number'
+        ? siteTags[tagIndex].length
+        : tagPostCount;
+      break;
+    }
+  }
+  var postsByDate = page.posts.sort('date', -1);
+  var previousYear = null;
+%>
+
+<div class="container tag-details archives">
+  <header class="tag-detail-header">
+    <h1>#<%= page.tag %></h1>
+    <span class="tag-detail-count"><%= tagPostCount %></span>
+  </header>
+
+  <div class="timeline">
+    <% postsByDate.each(function(item) {
+      var currentYear = item.date.year();
+      if (currentYear !== previousYear) {
+        previousYear = currentYear;
+    %>
+      <div class="timeline-year">
+        <span class="timeline-year-dot"></span>
+        <span class="timeline-year-title"><%= currentYear %></span>
       </div>
-    </div>
-  <% }) %>
+    <% } %>
+      <article class="timeline-item" title="<%= item.title %>">
+        <span class="timeline-dot"></span>
+        <div class="timeline-meta">
+          <time class="timeline-date" datetime="<%= item.date.format('YYYY-MM-DD') %>"><%= item.date.format('MM-DD') %></time>
+          <a class="timeline-link" href="<%= url_for(item.path) %>"><%= item.title %></a>
+        </div>
+      </article>
+    <% }); %>
+  </div>
+
   <nav class="post-navigation">
     <% if(page.prev !== 0){ %>
-      <a href="<%- url_for(page.prev_link)%>"><i class="iconfont icon-angleleft"></i></a>
+      <a href="<%= url_for(page.prev_link) %>"><i class="iconfont icon-angleleft"></i></a>
     <% } %>
-    <span class="page-num"><%- page.current %> / <%- page.total -%></span>
+    <span class="page-num"><%= page.current %> / <%= page.total %></span>
     <% if(page.next !== 0){ %>
-      <a href="<%- url_for(page.next_link)%>"><i class="iconfont icon-angleright"></i></a>
+      <a href="<%= url_for(page.next_link) %>"><i class="iconfont icon-angleright"></i></a>
     <% } %>
   </nav>
 </div>

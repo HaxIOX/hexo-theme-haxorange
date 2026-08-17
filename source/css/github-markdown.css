@@ -418,12 +418,12 @@
 }
 
 .markdown-body blockquote {
-  /*margin: 3rem 0;*/
-  padding: 15px;
+  padding: 12px 16px;
   color: var(--color-block-md-quote);
-  border-left: 0.25em solid var(--color-block-md-quote);
+  border-left: 3px solid var(--color-block-md-quote);
   background: var(--bg-block-md-quote);
-  border-radius: 3px;
+  border-radius: 4px;
+  line-height: 1.75;
 }
 
 .markdown-body blockquote > :first-child {
