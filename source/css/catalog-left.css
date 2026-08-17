@@ -1,14 +1,13 @@
 /* Left-side table of contents for post pages. */
 .post-details.has-catalog {
   display: grid;
-  grid-template-columns: minmax(180px, 220px) minmax(0, 760px);
+  grid-template-columns: minmax(0, 760px);
   grid-template-areas:
-    "catalog article"
-    ". comments";
-  column-gap: clamp(28px, 4vw, 56px);
+    "article"
+    "comments";
   align-items: start;
   justify-content: center;
-  width: min(1080px, calc(100% - 64px));
+  width: min(760px, calc(100% - 64px));
 }
 
 .post-details.has-catalog > .post-content {
@@ -22,17 +21,20 @@
 }
 
 .post-details.has-catalog > .post-catalog {
-  grid-area: catalog;
+  grid-area: article;
+  align-self: start;
+  justify-self: start;
   position: sticky;
   top: 20px;
   right: auto;
   bottom: auto;
-  width: 100%;
+  width: clamp(180px, 15vw, 220px);
   max-height: calc(100vh - 40px);
   max-height: calc(100dvh - 40px);
   box-sizing: border-box;
   padding: 0 12px 0 0;
   overflow: hidden;
+  transform: translateX(calc(-100% - clamp(28px, 4vw, 56px)));
 }
 
 .post-details.has-catalog .catalog-content {
@@ -66,12 +68,12 @@
 
 .post-details.has-catalog .toc-link:hover,
 .post-details.has-catalog .toc-link.active {
-  color: var(--color-text-a-active);
+  color: var(--color-text-a);
 }
 
 .post-details.has-catalog .toc-link.active {
-  border-left-color: currentColor;
-  font-weight: 600;
+  border-left-color: var(--color-text-sub);
+  font-weight: 500;
 }
 
 .post-details.has-catalog .toc-link::after {
@@ -82,7 +84,7 @@
   display: none;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1200px) {
   .post-details.has-catalog {
     display: block;
     width: 90%;

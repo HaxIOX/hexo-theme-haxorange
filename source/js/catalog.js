@@ -1,6 +1,6 @@
 // catalog js
 (function () {
-  const mobileBreakpoint = 1080
+  const mobileBreakpoint = 1200
   const catalog = document.getElementById("catalog")
   const catalogButton = document.getElementById("btn-catalog")
   const catalogBackdrop = document.getElementById("catalog-backdrop")
