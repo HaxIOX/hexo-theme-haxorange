@@ -64,6 +64,12 @@
     <div class="post-content">
       <div class="post-title"><%- page.title %></div>
       <div class="post-attach">
+        <% var _raw = (page.content || '').replace(/<[^>]+>/g, ' ').replace(/&(?:[a-zA-Z0-9]+|#\d+|#x[a-fA-F0-9]+);/g, ' ') %>
+        <% var _wordCount = (_raw.match(/[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g) || []).length + (_raw.match(/[a-zA-Z0-9_]+/g) || []).length %>
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="<%= __('words') %>"></i>
+          <%- _wordCount %>
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="<%= __('updateTime') %>"></i>
           <%- page.updated.format("YYYY-MM-DD HH:mm:ss") %>

@@ -1,33 +1,42 @@
 <!-- 归档页，展示本站所有文章，按照年份降序归类，url形式：https://yoursite/archives/ -->
-
-<!-- last: 按年份把文章分组，当前遍历到的年份 -->
-<!-- now: 当前遍历到的文章的发布年份 -->
+<!-- 以竖线时间轴呈现：年份节点 + 每篇文章一个节点 -->
 
 <div class="container archives">
-  <div class="post-list">
+  <div class="timeline">
     <%
+      // 预遍历统计各年份文章数，用于年份节点角标
+      var postsByDate = site.posts.sort('date', -1);
+      var yearCount = {};
+      postsByDate.each(function(item) {
+        var y = item.date.year();
+        yearCount[y] = (yearCount[y] || 0) + 1;
+      });
+
       var prev = -10086;// prev year
       var curr;// curr year, ever step be updated
 
-      site.posts.sort('date', -1).each(function(item, index) {
-        curr = item.date.year()
+      postsByDate.each(function(item) {
+        curr = item.date.year();
         if (curr !== prev) {
           prev = curr;
       %>
-        <!-- 后续文章的发布年份呈现 -->
-        <div class="content-title">
-          <h2>
-            <span><%- curr %></span>
-          </h2>
+        <!-- 后续文章的发布年份节点 -->
+        <div class="timeline-year">
+          <span class="timeline-year-dot"></span>
+          <span class="timeline-year-title"><%- curr %></span>
+          <% if (yearCount[curr]) { %>
+            <span class="timeline-year-count"><%- yearCount[curr] %></span>
+          <% } %>
         </div>
       <%
         }
       %>
-      <div class="post-item" title="<%- item.title %>">
-        <div class="time-m-d"><%- item.date.format("MM-DD") %></div>
-        <div class="title">
-          <a href="<%- url_for(item.path) %>">
-            <span><%- item.title %></span>
+      <div class="timeline-item" title="<%- item.title %>">
+        <span class="timeline-dot"></span>
+        <div class="timeline-meta">
+          <span class="timeline-date"><%- item.date.format("MM-DD") %></span>
+          <a class="timeline-link" href="<%- url_for(item.path) %>">
+            <%- item.title %>
           </a>
         </div>
       </div>

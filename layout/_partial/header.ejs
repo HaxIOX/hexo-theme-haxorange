@@ -62,6 +62,10 @@
   <!-- 代码块风格 -->
   <% if (theme.codeBlock && theme.codeBlock.style && theme.codeBlock.style == 'mac-black'){ %>
     <%- css(['/css/figcaption/mac-block.css'])%>
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = <%= (theme.codeBlock.language !== undefined ? theme.codeBlock.language : true) %>;
+    </script>
+    <%- js(['/js/macBlock.js']) %>
   <% } %>
 
   <!-- jquery3.3.1 -->

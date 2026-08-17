@@ -1,30 +1,30 @@
-[English](https://github.com/zchengsite/hexo-theme-oranges/blob/master/README.md) | 简体中文
+[English](README.md) | 简体中文
 
-# hexo-theme-oranges
+# HaxOrange
 
-> 一个简单的 hexo 主题
+> 一个由 HaxIOX 独立维护的简洁 Hexo 主题
 
-[demo](https://hexo.theme.oranges.zcheng.site/)
+本项目基于 [zchengsite/hexo-theme-oranges](https://github.com/zchengsite/hexo-theme-oranges) 继续开发，现由 HaxIOX 独立维护，与原项目不存在隶属或官方背书关系。
 
 ## 安装
 
-为了更为便捷的更新主题，建议使用添加 Git 子模块的方法安装，在 hexo 博客项目根目录下执行，会将`oranges`主题 clone 至`themes`文件夹下。
+为了更为便捷地更新主题，建议使用 Git 子模块安装。在 Hexo 博客项目根目录执行以下命令，会将 `haxorange` 主题克隆至 `themes` 文件夹。
 
 ```bash
-git submodule add https://github.com/zchengsite/hexo-theme-oranges.git themes/oranges
+git submodule add https://github.com/HaxIOX/hexo-theme-haxorange.git themes/haxorange
 ```
 
 日后更新主题只需要在主题根目录执行`git pull`命令即可。
 
 ## 使用
 
-在 hexo 博客项目根目录下找到`_config.yml`文件，修改其中`theme`字段为主题名`oranges`
+在 Hexo 博客项目根目录找到 `_config.yml` 文件，将 `theme` 字段修改为 `haxorange`：
 
 ```yml
-theme: oranges
+theme: haxorange
 ```
 
-复制主题文件夹下的`_config.yml`文件到博客根目录并改名为`_config.oranges.yml`，后续修改主题操作均在`_config.oranges.yml`中进行。
+将主题目录下的 `_config.yml` 复制到博客根目录并重命名为 `_config.haxorange.yml`，后续主题配置均在 `_config.haxorange.yml` 中完成。
 
 ## 配置
 
@@ -49,7 +49,7 @@ tags:
 ---
 ```
 
-并在配置文件`_config.oranges.yml`修改对应`enable`为`true`，如不想展示，设置为`false`即可
+并在配置文件 `_config.haxorange.yml` 中将对应的 `enable` 修改为 `true`，如不想展示，设置为 `false` 即可
 
 ```yml
 navbar:
@@ -82,7 +82,7 @@ tags:
 ---
 ```
 
-并在配置文件`_config.oranges.yml`修改对应`enable`为`true`，如不想展示，设置为`false`即可
+并在配置文件 `_config.haxorange.yml` 中将对应的 `enable` 修改为 `true`，如不想展示，设置为 `false` 即可
 
 ```yml
 navbar:
@@ -115,7 +115,7 @@ tags:
 ---
 ```
 
-并在配置文件`_config.oranges.yml`修改对应`enable`为`true`，如不想展示，设置为`false`即可
+并在配置文件 `_config.haxorange.yml` 中将对应的 `enable` 修改为 `true`，如不想展示，设置为 `false` 即可
 
 ```yml
 navbar:
@@ -148,7 +148,7 @@ tags:
 ---
 ```
 
-并在配置文件`_config.oranges.yml`修改对应`enable`为`true`，如不想展示，设置为`false`即可
+并在配置文件 `_config.haxorange.yml` 中将对应的 `enable` 修改为 `true`，如不想展示，设置为 `false` 即可
 
 ```yml
 navbar:
@@ -163,7 +163,7 @@ navbar:
 <details>
   <summary><b>文章目录 (Catalog)</b> (click to show)</summary>
 
-在配置文件`_config.oranges.yml`下`catalog`修改`enable`为`true`，如不想展示，设置为`false`即可
+在配置文件 `_config.haxorange.yml` 中将 `catalog` 下的 `enable` 修改为 `true`，如不想展示，设置为 `false` 即可
 
 ```yml
 catalog:
@@ -199,7 +199,7 @@ feed:
 ```
 
 3.开启 rss 按钮
-在配置文件`_config.oranges.yml`增加页脚项：
+在配置文件 `_config.haxorange.yml` 中增加页脚项：
 
 ```yml
 footer:
@@ -215,7 +215,7 @@ footer:
 <details>
   <summary><b>评论系统 (Comment)</b> (click to show)</summary>
 
-1.确保配置文件`_config.oranges.yml`下`comments`->`enable: true`
+1. 确保配置文件 `_config.haxorange.yml` 中 `comments` -> `enable: true`
 
 2.目前支持以下几种评论插件
 
@@ -395,7 +395,7 @@ lazyload:
 <details>
   <summary><b>主题配色切换</b> (click to show)</summary>
 
-  拉取最新仓库，在配置文件`_config.oranges.yml`中添加或修改`colorSwitch`字段，确保`enable`为`true`:
+  拉取最新仓库，在配置文件 `_config.haxorange.yml` 中添加或修改 `colorSwitch` 字段，确保 `enable` 为 `true`：
 
   ```yml
   colorSwitch:
@@ -409,7 +409,7 @@ lazyload:
 <details>
   <summary><b>文章分享</b> (click to show)</summary>
 
-  拉取最新仓库，在配置文件`_config.oranges.yml`中添加或修改`postShare`字段，确保`enable`为`true`:
+  拉取最新仓库，在配置文件 `_config.haxorange.yml` 中添加或修改 `postShare` 字段，确保 `enable` 为 `true`：
 
   ```yml
   postShare:
@@ -420,6 +420,21 @@ lazyload:
   ```
 
 重新运行项目，文章页面右下角会出现分享的按钮。
+
+</details>
+
+<details>
+  <summary><b>Mac 风格代码块</b> (click to show)</summary>
+
+在 `_config.haxorange.yml` 中配置代码块窗口风格、语言标签和复制按钮：
+
+```yml
+codeBlock:
+  style: mac-black
+  language: true
+  copy:
+    enable: true
+```
 
 </details>
 
@@ -461,7 +476,7 @@ lazyload:
 - [x] 文章标题锚点`[2020.5.3]`✔
 - [x] 评论系统`[2020.5.7]`✔
 - [x] 分享功能`[2021.8.22]`✔
-- [ ] 文章字数统计
+- [x] 文章字数统计 `[2026.8.17]`✔
 - [ ] 页面访问量统计
 - [x] Google 分析`[2020.5.8]`✔
 - [x] 文章加密`[2022.3.23]`✔

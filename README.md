@@ -1,15 +1,15 @@
-English | [简体中文](https://github.com/zchengsite/hexo-theme-oranges/blob/master/README-zh.md)
+English | [简体中文](README-zh.md)
 
-# hexo-theme-oranges
+# HaxOrange
 
-> A simple hexo theme
+> A simple Hexo theme, independently maintained by HaxIOX.
 
-[demo](https://hexo.theme.oranges.zcheng.site/)
+This project is based on [zchengsite/hexo-theme-oranges](https://github.com/zchengsite/hexo-theme-oranges) and is now maintained independently. It is not affiliated with or endorsed by the original project.
 
 ## Installation
 
 ```bash
-git submodule add https://github.com/zchengsite/hexo-theme-oranges.git themes/oranges
+git submodule add https://github.com/HaxIOX/hexo-theme-haxorange.git themes/haxorange
 ```
 
 To update the theme in the future, just execute the `git pull` command in the theme root directory.
@@ -19,10 +19,10 @@ To update the theme in the future, just execute the `git pull` command in the th
 In order to update the theme more conveniently, it is recommended to install it by adding a Git submodule.Edit the `theme` field in the `_config.yml` file under the project root:
 
 ```yml
-theme: oranges
+theme: haxorange
 ```
 
-Copy the `_config.yml` file in the theme folder to the blog root directory and rename it to `_config.oranges.yml`. Subsequent theme modification operations are performed in `_config.oranges.yml`.
+Copy the `_config.yml` file in the theme folder to the blog root directory and rename it to `_config.haxorange.yml`. Subsequent theme configuration is performed in `_config.haxorange.yml`.
 
 ## configuration
 
@@ -45,7 +45,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
   ---
   ```
 
-  Enable `tags` in the `_config.oranges.yml` file:
+  Enable `tags` in the `_config.haxorange.yml` file:
 
   ```yml
   navbar:
@@ -76,7 +76,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
   ---
   ```
 
-  Enable `categories` in the `_config.oranges.yml` file:
+  Enable `categories` in the `_config.haxorange.yml` file:
 
   ```yml
   navbar:
@@ -107,7 +107,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
   ---
   ```
 
-  Enable `friends` in the `_config.oranges.yml` file:
+  Enable `friends` in the `_config.haxorange.yml` file:
 
   ```yml
   navbar:
@@ -138,7 +138,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
   ---
   ```
 
-  Enable `about` in the `_config.oranges.yml` file:
+  Enable `about` in the `_config.haxorange.yml` file:
 
   ```yml
   navbar:
@@ -153,7 +153,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
 <details>
   <summary><b>catalog(contents)</b> (click to show)</summary>
 
-  Enable `catalog` in the `_config.oranges.yml` file:
+  Enable `catalog` in the `_config.haxorange.yml` file:
 
   ```yml
   catalog:
@@ -210,7 +210,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
 - [gitalk](https://github.com/gitalk/gitalk#usage)
 - [disqus](https://disqus.com)
 
-  First, Enable `Comments` in the `_config.oranges.yml` file:
+  First, Enable `Comments` in the `_config.haxorange.yml` file:
 
   ```yml
   comments:
@@ -237,7 +237,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
 
   First, view [Google Analytics](https://analytics.google.com) to get the `gtagkey`:
 
-  Then, enable `gtag` in the `_config.oranges.yml` file:
+  Then, enable `gtag` in the `_config.haxorange.yml` file:
 
   ```yml
   gtag:
@@ -250,7 +250,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
 <details>
   <summary><b>PREV & NEXT</b> (click to show)</summary>
 
-  enable `prevnext` in the `_config.oranges.yml` file:
+  enable `prevnext` in the `_config.haxorange.yml` file:
 
   ```yml
   prevnext:
@@ -302,7 +302,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
 
   more [hexo-generator-search](https://github.com/wzpan/hexo-generator-search)
 
-  edit configuration in the `_config.oranges.yml`
+  edit configuration in the `_config.haxorange.yml`
 
   ```yml
     search:
@@ -381,7 +381,7 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
 <details>
   <summary><b>dark mode</b> (click to show)</summary>
 
-  Pull up the latest repository, add or edit configuration in `_config.oranges.yml`:
+  Pull up the latest repository, add or edit configuration in `_config.haxorange.yml`:
 
   ```yml
   colorSwitch:
@@ -395,7 +395,7 @@ The toggle option appears in the bottom right corner of the page.
 <details>
   <summary><b>share</b> (click to show)</summary>
 
-  Pull up the latest repository, add or edit configuration in `_config.oranges.yml`:
+  Pull up the latest repository, add or edit configuration in `_config.haxorange.yml`:
 
   ```yml
   postShare:
@@ -406,6 +406,21 @@ The toggle option appears in the bottom right corner of the page.
   ```
 
 The toggle option appears in the bottom right corner of the post page.
+
+</details>
+
+<details>
+  <summary><b>Mac-style code blocks</b> (click to show)</summary>
+
+  Configure the code block window style, language label, and copy button in `_config.haxorange.yml`:
+
+  ```yml
+  codeBlock:
+    style: mac-black
+    language: true
+    copy:
+      enable: true
+  ```
 
 </details>
 
@@ -447,7 +462,7 @@ The toggle option appears in the bottom right corner of the post page.
 - [x] H1 - h6 anchor`[2020.5.3]`✔
 - [x] comments`[2020.5.7]`✔
 - [x] share`[2021.8.22]`✔
-- [ ] word count
+- [x] word count `[2026.8.17]`✔
 - [ ] traffic statistics
 - [x] Google Analytics`[2020.5.8]`✔
 - [x] post encryption`[2022.3.23]`✔

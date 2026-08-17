@@ -1,41 +1,189 @@
-.markdown-body .highlight .gutter pre {
-  background-color: #2d2d2d;
+/*
+  mac-black 风格代码块：苹果 Xcode / CodePen 式「深色窗口 + 红黄绿三点」
+  标题栏（.mac-head：三点 + 语言/标题标签）由 /js/macBlock.js 注入，本文件只负责外观。
+  深浅色模式下均为固定深色窗口。
+*/
+
+/* ===== 深色窗口 ===== */
+.markdown-body figure.highlight {
+  position: relative;
+  margin: 12px 0;
+  border: 1px solid #181a1f;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #282c34;
+  color: #abb2bf;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  font-family: "SFMono-Regular", ui-monospace, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
 }
 
-figure {
-  padding: 32px 2px 2px;
-}
-
-figure::after {
-  content: "";
-  position: absolute;
-  height: 12px;
-  width: 12px;
-  box-shadow: 10px 11px #ff5e5c, 30px 11px #ffbb4e, 50px 11px #00c857;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-}
-
-figure table {
-  margin-bottom: 0 !important;
-}
-
-figure table .gutter {
+/* ===== 标题栏：三点 + 语言标签 ===== */
+.markdown-body figure.highlight .mac-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 9px;
+  background-color: #21252b;
+  border-bottom: 1px solid #181a1f;
   user-select: none;
 }
 
-figure figcaption {
-  padding-left: 1rem;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+.markdown-body figure.highlight .mac-dot {
+  display: block;
+  width: 11px;
+  height: 11px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background-color: #ff5f57; /* red */
+}
+.markdown-body figure.highlight .mac-dot-yellow {
+  background-color: #febc2e;
+}
+.markdown-body figure.highlight .mac-dot-green {
+  background-color: #28c840;
+}
+
+.markdown-body figure.highlight .mac-lang {
   position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  line-height: 26px;
+  color: #8b8e96;
+}
+.markdown-body figure.highlight .mac-lang[data-empty="true"] {
   display: none;
 }
 
-figure table {
-  border-top: 1px solid #ffffff1f;
+/* ===== 代码区排版 ===== */
+.markdown-body figure.highlight pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  line-height: 1.55;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: inherit;
+}
+
+.markdown-body figure.highlight .gutter pre {
+  padding: 9px;
+  background-color: #21252b !important;
+  color: #4b5263;
+  text-align: right;
+  user-select: none;
+}
+
+.markdown-body figure.highlight .code pre {
+  padding: 9px 12px;
+  background-color: #282c34 !important;
+  overflow-x: auto;
+}
+
+.markdown-body figure.highlight .line {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+.markdown-body figure.highlight .line.marked {
+  background-color: #2c313a;
+}
+
+/* 隐藏 Hexo 原生 figcaption（语言/标题已由 JS 显示在标题栏） */
+.markdown-body figure.highlight figcaption {
+  display: none;
+}
+
+/* ===== 复制按钮：落在标题栏右侧 ===== */
+.markdown-body figure .pin-copy {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  z-index: 1;
+  font-size: 12px;
+  color: #8b8e96;
+  transition: color 0.2s;
+}
+.markdown-body figure .pin-copy:hover {
+  color: #e6e6e6;
+}
+
+/* ===== 语法配色：Atom One Dark（在 #282c34 上对比更清晰） ===== */
+.markdown-body figure.highlight pre .comment,
+.markdown-body figure.highlight pre .title {
+  color: #5c6370;
+}
+
+.markdown-body figure.highlight pre .variable,
+.markdown-body figure.highlight pre .attribute,
+.markdown-body figure.highlight pre .tag,
+.markdown-body figure.highlight pre .regexp,
+.markdown-body figure.highlight pre .ruby .constant,
+.markdown-body figure.highlight pre .xml .tag .title,
+.markdown-body figure.highlight pre .xml .pi,
+.markdown-body figure.highlight pre .xml .doctype,
+.markdown-body figure.highlight pre .html .doctype,
+.markdown-body figure.highlight pre .css .id,
+.markdown-body figure.highlight pre .css .class,
+.markdown-body figure.highlight pre .css .pseudo {
+  color: #e06c75;
+}
+
+.markdown-body figure.highlight pre .number,
+.markdown-body figure.highlight pre .preprocessor,
+.markdown-body figure.highlight pre .built_in,
+.markdown-body figure.highlight pre .literal,
+.markdown-body figure.highlight pre .params,
+.markdown-body figure.highlight pre .constant {
+  color: #d19a66;
+}
+
+.markdown-body figure.highlight pre .class,
+.markdown-body figure.highlight pre .ruby .class .title,
+.markdown-body figure.highlight pre .css .rules .attribute {
+  color: #98c379;
+}
+
+.markdown-body figure.highlight pre .string,
+.markdown-body figure.highlight pre .value,
+.markdown-body figure.highlight pre .inheritance,
+.markdown-body figure.highlight pre .header,
+.markdown-body figure.highlight pre .ruby .symbol,
+.markdown-body figure.highlight pre .xml .cdata {
+  color: #98c379;
+}
+
+.markdown-body figure.highlight pre .css .hexcolor {
+  color: #56b6c2;
+}
+
+.markdown-body figure.highlight pre .function,
+.markdown-body figure.highlight pre .python .decorator,
+.markdown-body figure.highlight pre .python .title,
+.markdown-body figure.highlight pre .ruby .function .title,
+.markdown-body figure.highlight pre .ruby .title .keyword,
+.markdown-body figure.highlight pre .perl .sub,
+.markdown-body figure.highlight pre .javascript .title,
+.markdown-body figure.highlight pre .coffeescript .title {
+  color: #61afef;
+}
+
+.markdown-body figure.highlight pre .keyword,
+.markdown-body figure.highlight pre .javascript .function {
+  color: #c678dd;
+}
+
+/* highlight.js 的函数名类为 title function_，覆盖上方 .title 的灰色 */
+.markdown-body figure.highlight pre .function_ {
+  color: #61afef;
+}
+/* shebang、元信息行 */
+.markdown-body figure.highlight pre .meta {
+  color: #5c6370;
 }

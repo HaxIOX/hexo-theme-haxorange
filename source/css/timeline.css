@@ -1,0 +1,113 @@
+/* 归档页时间轴 */
+
+.archives .timeline {
+  /* --tl-inset 同时控制内容内边距与竖线偏移，保证竖线穿过圆点中心 */
+  --tl-inset: 40px;
+  position: relative;
+  padding: 0 var(--tl-inset);
+}
+
+.archives .timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--tl-inset) + 9px);
+  width: 2px;
+  background-color: var(--color-divider-md-border);
+}
+
+/* ===== 年份节点 ===== */
+.archives .timeline-year {
+  position: relative;
+  padding-left: 40px;
+  margin: 28px 0 14px;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.archives .timeline-year:first-child {
+  margin-top: 0;
+}
+
+.archives .timeline-year-dot {
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--color-text-a);
+  border: 3px solid var(--bg-body);
+  box-sizing: border-box;
+}
+
+.archives .timeline-year-title {
+  font-weight: 600;
+  color: var(--color-text-a);
+}
+
+.archives .timeline-year-count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 8px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  line-height: 18px;
+  vertical-align: top;
+  color: var(--color-text-sub);
+  background-color: var(--color-divider-md-border);
+}
+
+/* ===== 文章节点 ===== */
+.archives .timeline-item {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  padding-left: 40px;
+  margin-bottom: 18px;
+}
+
+.archives .timeline-dot {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-text-sub);
+  border: 2px solid var(--bg-body);
+  box-sizing: border-box;
+}
+
+.archives .timeline-date {
+  flex-shrink: 0;
+  margin-right: 16px;
+  font-family: Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--color-text-sub);
+}
+
+.archives .timeline-meta {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.archives .timeline-link {
+  min-width: 0;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--color-text-a);
+  overflow-wrap: anywhere;
+}
+.archives .timeline-link:hover {
+  color: var(--color-text-a-hover);
+}
+
+@media (max-width: 888px) {
+  .archives .timeline {
+    --tl-inset: 0px;
+    padding: 0;
+  }
+}
