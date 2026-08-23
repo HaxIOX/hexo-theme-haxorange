@@ -5,7 +5,7 @@ searchNoResult: O conteúdo não foi encontrado, tente substituir a palavra de r
 searchFilesNotfound: The search.xml file was not found, please refer to：
 searchServiceErrors: The request failed, Try to refresh the page or try again later.
 tags: Tags
-popular_tags: Tags populares
+frequent_tags: Tags frequentes
 all_tags: Todas as tags
 filter_tags: Filtrar tags
 no_tags_found: Nenhuma tag encontrada

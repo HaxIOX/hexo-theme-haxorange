@@ -5,7 +5,7 @@ searchNoResult: No result
 searchFilesNotfound: The search.xml file was not found, please refer to：
 searchServiceErrors: The request failed, Try to refresh the page or try again later.
 tags: Tags
-popular_tags: Populære tags
+frequent_tags: Ofte brukte tagger
 all_tags: Alle tags
 filter_tags: Filtrer tags
 no_tags_found: Ingen tags funnet

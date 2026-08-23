@@ -138,6 +138,35 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
   ---
   ```
 
+  The Markdown file creates the `/about/` route and may contain an optional introduction. Keep structured profile data in the theme config:
+
+  ```yml
+  about:
+    profile:
+      name: HaxIOX
+      bio: Embedded developer and open-source enthusiast.
+      avatar: /images/avatar.png
+      location: China
+      links:
+        - name: GitHub
+          url: https://github.com/HaxIOX
+    skills:
+      - name: Languages
+        items: [C, C++, Python]
+      - name: Embedded
+        items: [ESP32, STM32, ESP-IDF, FreeRTOS, LVGL]
+      - name: Tools
+        items: [Linux, Git, CMake, PlatformIO]
+    activity:
+      enable: true
+      days: 365
+    recentPosts:
+      enable: true
+      limit: 5
+  ```
+
+  The activity graph is generated from post dates at build time and does not use the GitHub API.
+
   Enable `about` in the `_config.haxorange.yml` file:
 
   ```yml
@@ -449,6 +478,34 @@ The toggle option appears in the bottom right corner of the post page.
   more [hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt/blob/master/ReadMe.zh.md)
 
 </details>
+
+## Common enhancements
+
+```yml
+# Show tags used by at least this many posts, ordered by post count
+tagIndex:
+  minimumCount: 2
+
+# Collapse long code blocks and wrap long lines
+codeBlock:
+  collapse:
+    enable: true
+    threshold: 18
+    collapsedLines: 10
+
+# Footer post count and site runtime
+footer:
+  stats:
+    enable: true
+    postCount: true
+    postLabel: Posts
+    runtime:
+      enable: true
+      since: "2024-01-01"
+      label: Runtime
+```
+
+Quoting the date is recommended; unquoted YAML dates are also supported.
 
 ## To Do List
 

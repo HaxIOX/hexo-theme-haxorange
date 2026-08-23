@@ -1,4 +1,10 @@
 <%
+  const runtimeConfig = theme.footer.stats && theme.footer.stats.runtime
+  const runtimeValue = runtimeConfig && runtimeConfig.since
+  const runtimeMatch = runtimeValue && String(runtimeValue).match(/\d{4}-\d{2}-\d{2}/)
+  const runtimeSince = runtimeValue instanceof Date && !isNaN(runtimeValue.getTime())
+    ? runtimeValue.toISOString().slice(0, 10)
+    : (runtimeMatch ? runtimeMatch[0] : '')
   const footerMoreVars = [
     {
       name: '{thisYear}',
@@ -52,4 +58,41 @@
       <% } %>
     </div>
   <% } %>
+  <% if (theme.footer.stats && theme.footer.stats.enable) { %>
+    <% const stats = theme.footer.stats %>
+    <% if (stats.postCount || (stats.runtime && stats.runtime.enable)) { %>
+      <div class="footer-stats">
+        <% if (stats.postCount) { %>
+          <span class="footer-stat-item"><strong><%- site.posts.length %></strong> <%- stats.postLabel || 'Posts' %></span>
+        <% } %>
+        <% if (stats.postCount && stats.runtime && stats.runtime.enable) { %>
+          <span class="footer-stats-separator">·</span>
+        <% } %>
+        <% if (stats.runtime && stats.runtime.enable && runtimeSince) { %>
+          <span class="footer-stat-item" data-runtime-since="<%- runtimeSince %>"><%- stats.runtime.label || 'Runtime' %> <span data-runtime-days>0</span></span>
+        <% } %>
+      </div>
+    <% } %>
+  <% } %>
 </div>
+
+<% if (runtimeConfig && runtimeConfig.enable && runtimeSince) { %>
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+<% } %>

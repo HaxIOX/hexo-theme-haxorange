@@ -6,6 +6,14 @@
     return tag.posts && typeof tag.posts.length === 'number' ? tag.posts.length : 0;
   }
 
+  var minimumCount = theme.tagIndex && Number(theme.tagIndex.minimumCount) > 0
+    ? Number(theme.tagIndex.minimumCount)
+    : 2;
+
+  allTags = allTags.filter(function(tag) {
+    return tagPostCount(tag) >= minimumCount;
+  });
+
   allTags.sort(function(a, b) {
     var countDiff = tagPostCount(b) - tagPostCount(a);
     if (countDiff !== 0) return countDiff;
@@ -28,8 +36,8 @@
   </header>
 
   <% if (allTags.length > 0) { %>
-    <section class="tag-section" aria-labelledby="popular-tags-title">
-      <h2 id="popular-tags-title" class="tag-section-title"><%= __('popular_tags') %></h2>
+    <section class="tag-section" aria-labelledby="frequent-tags-title">
+      <h2 id="frequent-tags-title" class="tag-section-title"><%= __('frequent_tags') %></h2>
       <div class="tag-popular-list">
         <% popularTags.forEach(function(tag) { %>
           <a class="tag-popular-item" href="<%= url_for(tag.path) %>">

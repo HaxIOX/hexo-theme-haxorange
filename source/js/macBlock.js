@@ -38,10 +38,53 @@
     figure.insertBefore(head, figure.firstChild)
   }
 
+  function injectCollapse(figure) {
+    var config = window.__CODE_BLOCK_COLLAPSE__ || {}
+    if (config.enable === false) return
+
+    var code = figure.querySelector('.code')
+    var table = figure.querySelector('table')
+    if (!code || !table || table.parentNode.classList.contains('code-block-body')) return
+
+    var lineCount = code.querySelectorAll('.line').length
+    var threshold = Number(config.threshold) || 18
+    var collapsedLines = Number(config.collapsedLines) || 10
+    if (lineCount <= threshold) return
+
+    var body = document.createElement('div')
+    body.className = 'code-block-body'
+    body.style.setProperty('--collapsed-height', (Math.min(collapsedLines, threshold) * 19.375 + 18) + 'px')
+    table.parentNode.insertBefore(body, table)
+    body.appendChild(table)
+
+    var isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang || '')
+    var button = document.createElement('button')
+    button.className = 'code-block-toggle'
+    button.type = 'button'
+    button.setAttribute('aria-expanded', 'false')
+    button.innerHTML = '<i class="iconfont icon-chevronup" aria-hidden="true"></i><span></span>'
+
+    function render(expanded) {
+      figure.classList.toggle('is-expanded', expanded)
+      button.setAttribute('aria-expanded', String(expanded))
+      button.querySelector('span').textContent = expanded
+        ? (isChinese ? '收起代码' : 'Collapse code')
+        : (isChinese ? '展开全部 ' + lineCount + ' 行' : 'Show all ' + lineCount + ' lines')
+    }
+
+    button.addEventListener('click', function () {
+      render(button.getAttribute('aria-expanded') !== 'true')
+    })
+    figure.appendChild(button)
+    figure.classList.add('is-collapsible')
+    render(false)
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var figures = document.querySelectorAll('figure.highlight')
     for (var i = 0; i < figures.length; i++) {
       injectHead(figures[i])
+      injectCollapse(figures[i])
     }
   })
 })()

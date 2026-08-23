@@ -1,6 +1,7 @@
 /* light scheme */
 :root[color-mode="light"] {
-  --bg-body: #FFFFFF;
+  /* Warm paper tone for the light theme. */
+  --bg-body: #fdfaf3;
   --color-text-base: #666;
   --color-text-a: #666;
   --color-text-a-hover: #000000;
@@ -19,6 +20,11 @@
   --bg-block-md-table: #ffffff;
   --bg-block-md-table-2: #f6f8fa;
   --color-border-md-table: #dfe2e5;
+  --activity-level-0: #ebe6dc;
+  --activity-level-1: #f7d9aa;
+  --activity-level-2: #edae61;
+  --activity-level-3: #d9822b;
+  --activity-level-4: #a95613;
 }
 
 /* dark scheme */
@@ -42,4 +48,9 @@
   --bg-block-md-table: #2E3440;
   --bg-block-md-table-2: #313744;
   --color-border-md-table: #4c566a;
+  --activity-level-0: #444b59;
+  --activity-level-1: #704b2c;
+  --activity-level-2: #9a5b24;
+  --activity-level-3: #c87527;
+  --activity-level-4: #ef9a3c;
 }

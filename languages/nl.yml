@@ -5,7 +5,7 @@ searchNoResult: De inhoud is niet gevonden, probeer het zoekwoord te vervangen.
 searchFilesNotfound: The search.xml file was not found, please refer to：
 searchServiceErrors: The request failed, Try to refresh the page or try again later.
 tags: Labels
-popular_tags: Populaire tags
+frequent_tags: Veelgebruikte tags
 all_tags: Alle tags
 filter_tags: Tags filteren
 no_tags_found: Geen tags gevonden

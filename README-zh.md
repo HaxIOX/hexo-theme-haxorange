@@ -107,13 +107,40 @@ hexo new page about
 
 ```markdown
 ---
-title: tags
+title: about
 date: 2019-05-03 12:03:35
-type: "about"
-categories:
-tags:
+type: about
 ---
 ```
+
+该文件只负责生成 `/about/` 路由，也可以在 Front Matter 后继续编写个人介绍。个人资料、技术栈、文章热力图和最近文章在主题配置文件中维护：
+
+```yml
+about:
+  profile:
+    name: 南北的猫
+    bio: 懂基础硬件的嵌入式软件工程师
+    avatar: /images/avatar.png
+    location: China
+    links:
+      - name: GitHub
+        url: https://github.com/HaxIOX
+  skills:
+    - name: Languages
+      items: [C, C++, Python]
+    - name: Embedded
+      items: [ESP32, STM32, ESP-IDF, FreeRTOS, LVGL]
+    - name: Tools
+      items: [Linux, Git, CMake, PlatformIO]
+  activity:
+    enable: true
+    days: 365
+  recentPosts:
+    enable: true
+    limit: 5
+```
+
+热力图根据文章 `date` 在构建阶段生成，不依赖 GitHub API 或网络请求。
 
 并在配置文件 `_config.haxorange.yml` 中将对应的 `enable` 修改为 `true`，如不想展示，设置为 `false` 即可
 
@@ -463,6 +490,34 @@ codeBlock:
   更多可查看[hexo-blog-encrypt](https://github.com/D0n9X1n/hexo-blog-encrypt/blob/master/ReadMe.zh.md)
 
 </details>
+
+## 常用增强配置
+
+```yml
+# 标签首页仅展示使用次数达到阈值的标签，并按文章数降序排列
+tagIndex:
+  minimumCount: 2
+
+# 长代码块自动折叠，代码长行自动换行
+codeBlock:
+  collapse:
+    enable: true
+    threshold: 18
+    collapsedLines: 10
+
+# 页脚文章数与运行时间
+footer:
+  stats:
+    enable: true
+    postCount: true
+    postLabel: 文章
+    runtime:
+      enable: true
+      since: "2024-01-01"
+      label: 运行时间
+```
+
+日期建议使用引号，主题同时兼容未加引号的 YAML 日期。
 
 ## To Do List
 

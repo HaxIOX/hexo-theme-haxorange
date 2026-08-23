@@ -62,6 +62,13 @@
 }
 
 /* ===== 代码区排版 ===== */
+.markdown-body figure.highlight table {
+  display: table;
+  width: 100%;
+  margin: 0;
+  overflow: visible;
+}
+
 .markdown-body figure.highlight pre {
   margin: 0;
   padding: 0;
@@ -72,6 +79,10 @@
   color: inherit;
 }
 
+.markdown-body figure.highlight pre > br:last-child {
+  display: none;
+}
+
 .markdown-body figure.highlight .gutter pre {
   padding: 9px;
   background-color: #21252b !important;
@@ -80,16 +91,27 @@
   user-select: none;
 }
 
+/* 代码软换行后独立行号无法可靠对齐，隐藏行号以避免误导。 */
+.markdown-body figure.highlight .gutter {
+  display: none;
+}
+
 .markdown-body figure.highlight .code pre {
   padding: 9px 12px;
   background-color: #282c34 !important;
-  overflow-x: auto;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .markdown-body figure.highlight .line {
-  display: inline-block;
+  display: block;
   width: 100%;
   height: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .markdown-body figure.highlight .line.marked {
   background-color: #2c313a;
@@ -98,6 +120,50 @@
 /* 隐藏 Hexo 原生 figcaption（语言/标题已由 JS 显示在标题栏） */
 .markdown-body figure.highlight figcaption {
   display: none;
+}
+
+/* ===== 长代码折叠 ===== */
+.markdown-body figure.highlight .code-block-body {
+  overflow: hidden;
+}
+
+.markdown-body figure.highlight.is-collapsible:not(.is-expanded) .code-block-body {
+  max-height: var(--collapsed-height);
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+
+.markdown-body figure.highlight .code-block-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 34px;
+  padding: 5px 12px;
+  border: 0;
+  border-top: 1px solid #353a43;
+  border-radius: 0;
+  background: #21252b;
+  color: #abb2bf;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.markdown-body figure.highlight .code-block-toggle:hover,
+.markdown-body figure.highlight .code-block-toggle:focus-visible {
+  background: #2c313a;
+  color: #ffffff;
+}
+
+.markdown-body figure.highlight .code-block-toggle i {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+.markdown-body figure.highlight.is-expanded .code-block-toggle i {
+  transform: rotate(0deg);
 }
 
 /* ===== 复制按钮：落在标题栏右侧 ===== */

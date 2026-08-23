@@ -110,6 +110,36 @@ navbar:
     path: /about/
     key: about
 
+# 标签首页：仅展示文章数达到阈值的常用标签
+tagIndex:
+  minimumCount: 2
+
+# About 个人主页
+about:
+  profile:
+    name: HaxIOX
+    bio: Embedded developer and open-source enthusiast.
+    avatar: /images/avatar.png
+    location: China
+    links:
+      - name: GitHub
+        url: https://github.com/HaxIOX
+      # - name: Email
+      #   url: mailto:example@example.com
+  skills:
+    - name: Languages
+      items: [C, C++, Python, Shell]
+    - name: Embedded
+      items: [ESP32, STM32, FreeRTOS, LVGL]
+    - name: Tools
+      items: [Linux, Git, CMake, PlatformIO]
+  activity:
+    enable: true
+    days: 365
+  recentPosts:
+    enable: true
+    limit: 5
+
 # 文章目录
 catalog:
   enable: true
@@ -134,6 +164,16 @@ friends:
 
 # 页脚信息
 footer:
+  # 页脚统计
+  stats:
+    enable: true
+    postCount: true
+    postLabel: 文章
+    runtime:
+      enable: true
+      since: "2024-01-01"
+      label: 运行时间
+      unit: 天
   # social: 社交方式
   # more: 更多页脚信息
   social:
@@ -232,6 +272,11 @@ codeBlock:
   style: 'mac-black'
   # 是否在代码块标题栏显示语言/标题标签
   language: true
+  # 长代码块折叠；超过 threshold 行时默认显示 collapsedLines 行
+  collapse:
+    enable: true
+    threshold: 18
+    collapsedLines: 10
   # 代码复制
   copy:
     enable: true

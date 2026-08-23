@@ -1,0 +1,226 @@
+.about-index {
+  max-width: 900px;
+}
+
+.about-profile-card,
+.about-panel {
+  border: 1px solid var(--color-divider-md-border);
+  border-radius: 8px;
+  background: var(--bg-body);
+}
+
+.about-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 24px;
+}
+
+.about-avatar {
+  width: 92px;
+  height: 92px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-divider-md-border);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.about-profile-main {
+  min-width: 0;
+  h1 {
+    margin: 0;
+    color: var(--color-text-a);
+    font-size: 2.5rem;
+  }
+}
+
+.about-bio {
+  margin: 8px 0 10px;
+  color: var(--color-text-base);
+  font-size: 1.5rem;
+}
+
+.about-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  color: var(--color-text-sub);
+  font-size: 1.3rem;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 14px 0;
+  border: 1px solid var(--color-divider-md-border);
+  border-radius: 8px;
+  div {
+    padding: 14px 8px;
+    text-align: center;
+  }
+  div + div {
+    border-left: 1px solid var(--color-divider-md-border);
+  }
+  strong,
+  span {
+    display: block;
+  }
+  strong {
+    color: var(--color-text-a);
+    font-size: 2rem;
+  }
+  span {
+    margin-top: 3px;
+    color: var(--color-text-sub);
+    font-size: 1.2rem;
+  }
+}
+
+.about-panel {
+  margin-top: 14px;
+  padding: 20px;
+  h2 {
+    margin: 0 0 16px;
+    color: var(--color-text-a);
+    font-size: 1.8rem;
+  }
+}
+
+.about-intro .markdown-body {
+  font-size: 1.5rem;
+}
+
+.about-skill-groups {
+  display: grid;
+  gap: 18px;
+}
+
+.about-skill-group {
+  h3 {
+    margin: 0 0 9px;
+    color: var(--color-text-sub);
+    font-size: 1.3rem;
+    font-weight: normal;
+  }
+}
+
+.about-skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  span {
+    padding: 5px 10px;
+    border: 1px solid var(--color-divider-md-border);
+    border-radius: 12px;
+    color: var(--color-text-base);
+    font-size: 1.3rem;
+  }
+}
+
+.about-panel-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  h2 {
+    margin-bottom: 16px;
+  }
+  span {
+    color: var(--color-text-sub);
+    font-size: 1.2rem;
+  }
+}
+
+.about-activity-scroll {
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.about-activity-grid {
+  display: grid;
+  grid-template-rows: repeat(7, 10px);
+  grid-auto-flow: column;
+  grid-auto-columns: 10px;
+  gap: 3px;
+  width: max-content;
+  min-width: 100%;
+}
+
+.activity-cell,
+.about-activity-legend i {
+  display: block;
+  border-radius: 2px;
+  background: var(--activity-level-0);
+}
+
+.activity-cell.level-1,
+.about-activity-legend .level-1 { background: var(--activity-level-1); }
+.activity-cell.level-2,
+.about-activity-legend .level-2 { background: var(--activity-level-2); }
+.activity-cell.level-3,
+.about-activity-legend .level-3 { background: var(--activity-level-3); }
+.activity-cell.level-4,
+.about-activity-legend .level-4 { background: var(--activity-level-4); }
+.activity-cell.is-future { opacity: .25; }
+
+.about-activity-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 10px;
+  color: var(--color-text-sub);
+  font-size: 1.1rem;
+  i {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.about-recent-posts {
+  a {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 14px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--color-divider-md-border);
+    font-size: 1.4rem;
+  }
+  a:last-child {
+    border-bottom: 0;
+  }
+  time {
+    color: var(--color-text-sub);
+  }
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-profile-card {
+    align-items: flex-start;
+    padding: 18px;
+  }
+  .about-avatar {
+    width: 68px;
+    height: 68px;
+  }
+  .about-stats {
+    grid-template-columns: repeat(2, 1fr);
+    div:nth-child(3) {
+      border-left: 0;
+    }
+    div:nth-child(n+3) {
+      border-top: 1px solid var(--color-divider-md-border);
+    }
+  }
+  .about-panel {
+    padding: 16px;
+  }
+  .about-panel-heading {
+    display: block;
+  }
+}

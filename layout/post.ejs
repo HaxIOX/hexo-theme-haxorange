@@ -47,11 +47,7 @@
 
   <% if(page.type === "about") { %>
   <!-- 关于页 url形式：https://yoursite/about/ -->
-    <div class="container about-index">
-      <div class="markdown-body">
-        <%- page.content %>
-      </div>
-    </div>
+    <%- partial('_partial/about') %>
   <% } %>
 
   <% if (!page.type) { %>
@@ -86,7 +82,7 @@
           <% }
           }
           if (item.key === 'categories' && item.enable) {
-            if(page.tags && page.categories.length > 0) { %>
+            if(page.categories && page.categories.length > 0) { %>
               <span class="post-categories">
                 <i class="iconfont icon-bookmark" title="<%= __('categories') %>"></i>
                 <% for(let item of page.categories.data){ %>
@@ -135,7 +131,7 @@
               <% }
               }
               if (item.key === 'categories' && item.enable) {
-                if(page.tags && page.categories.length > 0) { %>
+                if(page.categories && page.categories.length > 0) { %>
                   <span class="post-categories">
                     <i class="iconfont icon-bookmark" title="<%= __('categories') %>"></i>
                     <% for(let item of page.categories.data){ %>

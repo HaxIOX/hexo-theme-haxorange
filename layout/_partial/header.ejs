@@ -67,6 +67,7 @@
     <%- css(['/css/figcaption/mac-block.css'])%>
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = <%= (theme.codeBlock.language !== undefined ? theme.codeBlock.language : true) %>;
+      window.__CODE_BLOCK_COLLAPSE__ = <%- JSON.stringify(theme.codeBlock.collapse || {}) %>;
     </script>
     <%- js(['/js/macBlock.js']) %>
   <% } %>
