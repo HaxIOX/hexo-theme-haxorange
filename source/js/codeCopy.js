@@ -5,7 +5,7 @@ let clipboard = null
 
 // 获取code block dom
 function getCodeBlockDoms() {
-  const codeBlockDoms = document.querySelectorAll('figure')
+  const codeBlockDoms = document.querySelectorAll('figure.highlight')
   const copyIcon = document.createElement('i')
   copyIcon.classList = 'iconfont icon-copy'
   const copyBtn = document.createElement('span')
@@ -15,8 +15,11 @@ function getCodeBlockDoms() {
   codeBlockDoms.length && codeBlockDoms.forEach(res => {
     res.addEventListener('mouseenter', () => {
       res.setAttribute('id', 'copy-target')
-      const copyContent = res.querySelector('table tbody tr .code')
-      res.setAttribute('data-clipboard-text', copyContent && copyContent.innerText || '')
+      const copyContent = res.querySelector('table tbody tr .code, pre code')
+      const copyText = copyContent && copyContent.matches('code')
+        ? copyContent.textContent
+        : copyContent && copyContent.innerText
+      res.setAttribute('data-clipboard-text', copyText || '')
       res.appendChild(copyBtn)
       copyBtn.addEventListener('click', copyContentAction)
     })

@@ -505,6 +505,24 @@ footer:
       label: Runtime
 ```
 
+### Syntax highlighting compatibility
+
+For new sites, use Hexo's built-in Prism renderer. Configure the site-level `_config.yml` as follows:
+
+```yml
+highlight:
+  enable: false
+
+prismjs:
+  enable: true
+  preprocess: true
+  line_number: false
+```
+
+The theme supports Hexo's default Highlight.js markup and standard Prism `pre[class*="language-"]` markup, including Hexo's built-in Prism renderer and `hexo-prism-plugin`. Do not enable the built-in Prism renderer and a third-party Prism plugin at the same time, as duplicate processing can cause highlighting and style conflicts. Existing sites may continue to use either implementation on its own.
+
+Fenced code blocks without a declared language are rendered as plain text. Prism `language-none`, `language-text`, `language-plain`, and `language-plaintext` blocks hide the language label while retaining the window style, copying, and folding. Because soft wrapping cannot reliably align with separate line-number columns, the theme hides Highlight.js and Prism line numbers. Custom renderers must emit either Hexo Highlight.js `figure.highlight` markup or standard Prism `pre.language-*` markup to receive the full enhancements.
+
 Quoting the date is recommended; unquoted YAML dates are also supported.
 
 ## To Do List

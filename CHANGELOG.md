@@ -6,6 +6,7 @@
 
 - Added a configurable GitHub-inspired About page with profile metadata, blog statistics, grouped skills, a build-time writing activity graph, and recent posts.
 - Added configurable long-code folding with full-content copying and soft wrapping for long lines.
+- Added Prism code-block compatibility, including `language-none`, copying, folding, and long-line wrapping.
 - Added configurable footer post count and site runtime.
 - Added a configurable minimum usage count for the tag index.
 

@@ -517,6 +517,24 @@ footer:
       label: 运行时间
 ```
 
+### 代码高亮兼容配置
+
+新项目推荐直接使用 Hexo 内置 Prism。在站点根目录的 `_config.yml` 中配置：
+
+```yml
+highlight:
+  enable: false
+
+prismjs:
+  enable: true
+  preprocess: true
+  line_number: false
+```
+
+主题同时兼容 Hexo 默认 Highlight.js 输出和采用标准 `pre[class*="language-"]` 结构的 Prism 输出，包括 Hexo 内置 Prism 与 `hexo-prism-plugin`。不要同时启用 Hexo 内置 Prism 和第三方 Prism 插件，避免重复高亮及样式冲突；已有项目也可以继续只使用其中一种实现。
+
+未声明语言的围栏代码块会作为普通文本显示。Prism 的 `language-none`、`language-text`、`language-plain` 与 `language-plaintext` 不显示语言标题，但仍保留窗口样式、复制与折叠功能。由于软换行无法与独立行号可靠对齐，主题会隐藏 Highlight.js 和 Prism 的行号列。自定义渲染器需要输出 Hexo Highlight.js 的 `figure.highlight` 或 Prism 的 `pre.language-*` 标准结构，才能启用完整增强功能。
+
 日期建议使用引号，主题同时兼容未加引号的 YAML 日期。
 
 ## To Do List

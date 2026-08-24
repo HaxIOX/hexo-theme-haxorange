@@ -105,6 +105,30 @@
   word-break: break-word;
 }
 
+/* Prism 输出：<pre class="line-numbers language-*"><code>...</code></pre> */
+.markdown-body figure.highlight.prism-highlight pre[class*="language-"] {
+  padding: 9px 12px;
+  background-color: #282c34 !important;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.markdown-body figure.highlight.prism-highlight pre[class*="language-"] code {
+  display: block;
+  color: inherit;
+  font: inherit;
+  white-space: inherit;
+  overflow-wrap: inherit;
+  word-break: inherit;
+}
+
+/* 软换行时 Prism 独立行号无法可靠对齐。 */
+.markdown-body figure.highlight.prism-highlight .line-numbers-rows {
+  display: none;
+}
+
 .markdown-body figure.highlight .line {
   display: block;
   width: 100%;
