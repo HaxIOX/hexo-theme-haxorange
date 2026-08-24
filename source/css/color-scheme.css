@@ -1,7 +1,7 @@
 /* light scheme */
 :root[color-mode="light"] {
   /* Warm paper tone for the light theme. */
-  --bg-body: #fdfaf3;
+  --bg-body: #fefcf8;
   --color-text-base: #666;
   --color-text-a: #666;
   --color-text-a-hover: #000000;

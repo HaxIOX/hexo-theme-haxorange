@@ -11,7 +11,7 @@
 
 ### Changed
 
-- Changed the light theme background to a subtle warm paper tone (`#fdfaf3`).
+- Changed the light theme background to a subtle warm paper tone (`#fefcf8`).
 - Renamed the `popular_tags` translation key to the semantically accurate `frequent_tags`.
 - Sorted the tag index by post count and hid low-frequency tags by default.
 - Made activity graph colors adapt to light and dark themes.
