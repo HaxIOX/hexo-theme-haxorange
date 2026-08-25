@@ -6,6 +6,5 @@ node_modules/
 public/
 .deploy*/
 *.zip
-package-lock.json
 *.backup
 /blog-preview/

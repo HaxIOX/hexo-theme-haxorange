@@ -31,3 +31,17 @@ updateTime: 更新時間
 words: 字數
 about: 關於
 friend: 朋友
+about_blog_stats: 部落格統計
+about_posts: 文章
+about_tags: 標籤
+about_categories: 分類
+about_runtime_days: 運行天數
+about_me: 關於我
+about_tech_stack: 技術棧
+about_writing_activity: 寫作動態
+about_year_posts: "%d 年發布 %d 篇"
+about_activity_label: "最近 %d 天文章發布熱力圖"
+about_activity_day: "%s：%d 篇"
+about_less: 少
+about_more: 多
+about_recent_posts: 最近文章

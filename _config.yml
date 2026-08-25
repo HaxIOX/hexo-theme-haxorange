@@ -117,22 +117,13 @@ tagIndex:
 # About 个人主页
 about:
   profile:
-    name: HaxIOX
-    bio: Embedded developer and open-source enthusiast.
-    avatar: /images/avatar.png
-    location: China
-    links:
-      - name: GitHub
-        url: https://github.com/HaxIOX
-      # - name: Email
-      #   url: mailto:example@example.com
-  skills:
-    - name: Languages
-      items: [C, C++, Python, Shell]
-    - name: Embedded
-      items: [ESP32, STM32, FreeRTOS, LVGL]
-    - name: Tools
-      items: [Linux, Git, CMake, PlatformIO]
+    # 留空时回退到 avatar.author_nickname 与 avatar.author_photo
+    name:
+    bio:
+    avatar:
+    location:
+    links: []
+  skills: []
   activity:
     enable: true
     days: 365

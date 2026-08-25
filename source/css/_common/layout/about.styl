@@ -146,22 +146,18 @@
   min-width: 100%;
 }
 
-.activity-cell,
+.about-activity-cell,
 .about-activity-legend i {
   display: block;
   border-radius: 2px;
   background: var(--activity-level-0);
 }
 
-.activity-cell.level-1,
-.about-activity-legend .level-1 { background: var(--activity-level-1); }
-.activity-cell.level-2,
-.about-activity-legend .level-2 { background: var(--activity-level-2); }
-.activity-cell.level-3,
-.about-activity-legend .level-3 { background: var(--activity-level-3); }
-.activity-cell.level-4,
-.about-activity-legend .level-4 { background: var(--activity-level-4); }
-.activity-cell.is-future { opacity: .25; }
+.about-activity-level-1 { background: var(--activity-level-1); }
+.about-activity-level-2 { background: var(--activity-level-2); }
+.about-activity-level-3 { background: var(--activity-level-3); }
+.about-activity-level-4 { background: var(--activity-level-4); }
+.about-activity-cell.is-outside-range { visibility: hidden; }
 
 .about-activity-legend {
   display: flex;

@@ -31,3 +31,17 @@ updateTime: 更新时间
 words: 字数
 about: 关于
 friend: 朋友
+about_blog_stats: 博客统计
+about_posts: 文章
+about_tags: 标签
+about_categories: 分类
+about_runtime_days: 运行天数
+about_me: 关于我
+about_tech_stack: 技术栈
+about_writing_activity: 写作动态
+about_year_posts: "%d 年发布 %d 篇"
+about_activity_label: "最近 %d 天文章发布热力图"
+about_activity_day: "%s：%d 篇"
+about_less: 少
+about_more: 多
+about_recent_posts: 最近文章

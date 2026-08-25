@@ -1,7 +1,11 @@
 <%
   var about = theme.about || {};
   var profile = about.profile || {};
+  var avatar = theme.avatar || {};
   var skills = Array.isArray(about.skills) ? about.skills : [];
+  var profileLinks = Array.isArray(profile.links) ? profile.links : [];
+  var profileAvatar = profile.avatar || avatar.author_photo;
+  var profileName = profile.name || avatar.author_nickname || config.author || '';
   var allPosts = site.posts && site.posts.data ? site.posts.data.slice() : [];
   var allTags = site.tags && site.tags.data ? site.tags.data : [];
   var allCategories = site.categories && site.categories.data ? site.categories.data : [];
@@ -19,11 +23,12 @@
   var activityDays = Math.min(730, Math.max(7, Number(activity.days) || 365));
   var today = new Date();
   today.setHours(0, 0, 0, 0);
-  var activityStart = new Date(today);
-  activityStart.setDate(today.getDate() - activityDays + 1);
-  activityStart.setDate(activityStart.getDate() - activityStart.getDay());
-  var activityEnd = new Date(today);
-  activityEnd.setDate(today.getDate() + (6 - today.getDay()));
+  var activityRangeStart = new Date(today);
+  activityRangeStart.setDate(today.getDate() - activityDays + 1);
+  var activityGridStart = new Date(activityRangeStart);
+  activityGridStart.setDate(activityGridStart.getDate() - activityGridStart.getDay());
+  var activityGridEnd = new Date(today);
+  activityGridEnd.setDate(today.getDate() + (6 - today.getDay()));
   var postCounts = {};
   allPosts.forEach(function(post) {
     if (!post.date || typeof post.date.format !== 'function') return;
@@ -33,67 +38,80 @@
   function activityDateKey(date) {
     return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
   }
-  var activityStartKey = activityDateKey(activityStart);
+  var activityRangeStartKey = activityDateKey(activityRangeStart);
   var todayKey = activityDateKey(today);
   var maxActivity = Object.keys(postCounts).filter(function(key) {
-    return key >= activityStartKey && key <= todayKey;
+    return key >= activityRangeStartKey && key <= todayKey;
   }).reduce(function(max, key) {
     return Math.max(max, postCounts[key]);
   }, 0);
   var activityCells = [];
-  for (var cursor = new Date(activityStart); cursor <= activityEnd; cursor.setDate(cursor.getDate() + 1)) {
+  for (var cursor = new Date(activityGridStart); cursor <= activityGridEnd; cursor.setDate(cursor.getDate() + 1)) {
     var dateKey = activityDateKey(cursor);
-    var count = postCounts[dateKey] || 0;
+    var outsideRange = cursor < activityRangeStart || cursor > today;
+    var count = outsideRange ? 0 : (postCounts[dateKey] || 0);
     var level = count === 0 ? 0 : Math.max(1, Math.ceil(count / Math.max(1, maxActivity) * 4));
-    activityCells.push({ date: dateKey, count: count, level: level, future: cursor > today });
+    activityCells.push({ date: dateKey, count: count, level: level, outsideRange: outsideRange });
   }
   var yearPostCount = allPosts.filter(function(post) {
     return post.date && typeof post.date.year === 'function' && post.date.year() === today.getFullYear();
   }).length;
   var recentLimit = Math.min(20, Math.max(1, Number(about.recentPosts && about.recentPosts.limit) || 5));
-  var recentPosts = allPosts.sort(function(a, b) { return b.date.valueOf() - a.date.valueOf(); }).slice(0, recentLimit);
+  var recentPosts = allPosts
+    .filter(function(post) { return post.date && typeof post.date.valueOf === 'function'; })
+    .sort(function(a, b) { return b.date.valueOf() - a.date.valueOf(); })
+    .slice(0, recentLimit);
 %>
 
 <div class="container about-index">
   <section class="about-profile-card">
-    <img class="about-avatar" src="<%= url_for(profile.avatar || theme.avatar.author_photo) %>" alt="<%= profile.name || theme.avatar.author_nickname %>">
+    <% if (profileAvatar) { %>
+      <img class="about-avatar" src="<%= url_for(profileAvatar) %>" alt="<%= profileName %>">
+    <% } %>
     <div class="about-profile-main">
-      <h1><%= profile.name || theme.avatar.author_nickname %></h1>
+      <% if (profileName) { %><h1><%= profileName %></h1><% } %>
       <% if (profile.bio) { %><p class="about-bio"><%= profile.bio %></p><% } %>
-      <div class="about-meta">
-        <% if (profile.location) { %><span>⌖ <%= profile.location %></span><% } %>
-        <% (profile.links || []).forEach(function(link) { %>
-          <a href="<%= url_for(link.url) %>" target="_blank" rel="noopener"><%= link.name %></a>
-        <% }); %>
-      </div>
+      <% if (profile.location || profileLinks.length) { %>
+        <div class="about-meta">
+          <% if (profile.location) { %><span>⌖ <%= profile.location %></span><% } %>
+          <% profileLinks.forEach(function(link) { %>
+            <% if (link && link.name && link.url) { %>
+              <a href="<%= url_for(link.url) %>" target="_blank" rel="noopener"><%= link.name %></a>
+            <% } %>
+          <% }); %>
+        </div>
+      <% } %>
     </div>
   </section>
 
-  <section class="about-stats" aria-label="博客统计">
-    <div><strong><%= allPosts.length %></strong><span>文章</span></div>
-    <div><strong><%= allTags.length %></strong><span>标签</span></div>
-    <div><strong><%= allCategories.length %></strong><span>分类</span></div>
-    <div><strong><%= runtimeDays %></strong><span>运行天数</span></div>
+  <section class="about-stats" aria-label="<%= __('about_blog_stats') %>">
+    <div><strong><%= allPosts.length %></strong><span><%= __('about_posts') %></span></div>
+    <div><strong><%= allTags.length %></strong><span><%= __('about_tags') %></span></div>
+    <div><strong><%= allCategories.length %></strong><span><%= __('about_categories') %></span></div>
+    <div><strong><%= runtimeDays %></strong><span><%= __('about_runtime_days') %></span></div>
   </section>
 
   <% if ((page.content || '').trim()) { %>
     <section class="about-panel about-intro">
-      <h2>About me</h2>
+      <h2><%= __('about_me') %></h2>
       <div class="markdown-body"><%- page.content %></div>
     </section>
   <% } %>
 
   <% if (skills.length) { %>
     <section class="about-panel">
-      <h2>Tech Stack</h2>
+      <h2><%= __('about_tech_stack') %></h2>
       <div class="about-skill-groups">
         <% skills.forEach(function(group) { %>
-          <div class="about-skill-group">
-            <h3><%= group.name %></h3>
-            <div class="about-skill-list">
-              <% (group.items || []).forEach(function(skill) { %><span><%= skill %></span><% }); %>
+          <% var groupItems = group && Array.isArray(group.items) ? group.items : []; %>
+          <% if (group && group.name && groupItems.length) { %>
+            <div class="about-skill-group">
+              <h3><%= group.name %></h3>
+              <div class="about-skill-list">
+                <% groupItems.forEach(function(skill) { %><span><%= skill %></span><% }); %>
+              </div>
             </div>
-          </div>
+          <% } %>
         <% }); %>
       </div>
     </section>
@@ -102,23 +120,30 @@
   <% if (activity.enable !== false) { %>
     <section class="about-panel">
       <div class="about-panel-heading">
-        <h2>Writing Activity</h2>
-        <span><%= today.getFullYear() %> 年发布 <%= yearPostCount %> 篇</span>
+        <h2><%= __('about_writing_activity') %></h2>
+        <span><%= __('about_year_posts', today.getFullYear(), yearPostCount) %></span>
       </div>
       <div class="about-activity-scroll">
-        <div class="about-activity-grid" role="img" aria-label="最近 <%= activityDays %> 天文章发布热力图">
+        <div class="about-activity-grid" role="img" aria-label="<%= __('about_activity_label', activityDays) %>">
           <% activityCells.forEach(function(cell) { %>
-            <span class="activity-cell level-<%= cell.level %><%= cell.future ? ' is-future' : '' %>" title="<%= cell.date %>：<%= cell.count %> 篇"></span>
+            <span
+              class="about-activity-cell about-activity-level-<%= cell.level %><%= cell.outsideRange ? ' is-outside-range' : '' %>"
+              <% if (cell.outsideRange) { %>aria-hidden="true"<% } else { %>title="<%= __('about_activity_day', cell.date, cell.count) %>"<% } %>
+            ></span>
           <% }); %>
         </div>
       </div>
-      <div class="about-activity-legend"><span>少</span><i class="level-0"></i><i class="level-1"></i><i class="level-2"></i><i class="level-3"></i><i class="level-4"></i><span>多</span></div>
+      <div class="about-activity-legend">
+        <span><%= __('about_less') %></span>
+        <i class="about-activity-level-0"></i><i class="about-activity-level-1"></i><i class="about-activity-level-2"></i><i class="about-activity-level-3"></i><i class="about-activity-level-4"></i>
+        <span><%= __('about_more') %></span>
+      </div>
     </section>
   <% } %>
 
   <% if (!about.recentPosts || about.recentPosts.enable !== false) { %>
     <section class="about-panel">
-      <h2>Recent Posts</h2>
+      <h2><%= __('about_recent_posts') %></h2>
       <div class="about-recent-posts">
         <% recentPosts.forEach(function(post) { %>
           <a href="<%= url_for(post.path) %>"><time><%= post.date.format('YYYY-MM-DD') %></time><span><%= post.title %></span></a>

@@ -31,3 +31,17 @@ updateTime: Update time
 words: Words
 about: About
 friend: Friend
+about_blog_stats: Blog statistics
+about_posts: Posts
+about_tags: Tags
+about_categories: Categories
+about_runtime_days: Runtime days
+about_me: About me
+about_tech_stack: Tech Stack
+about_writing_activity: Writing Activity
+about_year_posts: "%d: %d posts published"
+about_activity_label: "Writing activity for the last %d days"
+about_activity_day: "%s: %d posts"
+about_less: Less
+about_more: More
+about_recent_posts: Recent Posts
