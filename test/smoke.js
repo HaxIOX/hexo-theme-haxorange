@@ -162,6 +162,13 @@ function assertGeneratedSite(siteRoot, mode) {
 
   if (mode === 'highlight') assert.match(post, /<figure class="highlight (?:js|javascript)"/);
   if (mode === 'prism') assert.match(post, /class="[^"]*language-javascript/);
+
+  assert.match(post, /Publish time/);
+  assert.doesNotMatch(post, /Update time/);
+
+  const updatedPost = readPublic(path.join('three', 'index.html'));
+  assert.match(updatedPost, /Publish time/);
+  assert.match(updatedPost, /Update time/);
 }
 
 async function runMode(mode) {

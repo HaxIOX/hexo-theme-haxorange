@@ -446,6 +446,18 @@ a:hover {
   align-items: center;
 }
 
+.post-attach .post-date-icon {
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.post-attach .post-date-label {
+  margin-right: 8px;
+  opacity: 0.85;
+}
+
 .post-attach .post-tags, .post-attach .post-categories {
   flex-wrap: wrap;
   justify-content: center;

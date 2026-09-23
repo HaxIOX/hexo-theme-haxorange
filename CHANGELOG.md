@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added publish and update times to the post header and footer meta, hiding the update time when it matches the publish time.
 - Added a configurable GitHub-inspired About page with profile metadata, blog statistics, grouped skills, a build-time writing activity graph, and recent posts.
 - Added configurable long-code folding with full-content copying and soft wrapping for long lines.
 - Added Prism code-block compatibility, including `language-none`, copying, folding, and long-line wrapping.
