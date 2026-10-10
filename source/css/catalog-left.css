@@ -1,13 +1,13 @@
-/* Left-side table of contents for post pages. */
+/* 文章页左侧导轨：工具图标行 + 目录，整体贴在版心左侧的留白里。
+   版心宽度由 base.css 的 --content-width 统一控制，这里只负责把导轨推到正文左边。 */
+
 .post-details.has-catalog {
   display: grid;
-  grid-template-columns: minmax(0, 760px);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     "article"
     "comments";
   align-items: start;
-  justify-content: center;
-  width: min(760px, calc(100% - 64px));
 }
 
 .post-details.has-catalog > .post-content {
@@ -20,26 +20,192 @@
   min-width: 0;
 }
 
-.post-details.has-catalog > .post-catalog {
-  grid-area: article;
-  align-self: start;
-  justify-self: start;
-  position: sticky;
-  top: 20px;
-  right: auto;
-  bottom: auto;
-  width: clamp(180px, 15vw, 220px);
-  max-height: calc(100vh - 40px);
-  max-height: calc(100dvh - 40px);
-  box-sizing: border-box;
-  padding: 0 12px 0 0;
-  overflow: hidden;
-  transform: translateX(calc(-100% - clamp(28px, 4vw, 56px)));
+/* 宽屏：导轨与正文同格，用负外边距推到版心左侧的留白处。
+   可用宽度按视口实时计算，窄一点的桌面端导轨会收窄，而不是被屏幕边缘切掉。 */
+@media (min-width: 1201px) {
+  .post-details.has-catalog > .post-sidebar {
+    --rail-avail: max(150px, calc((100vw - var(--content-width)) / 2 - var(--rail-gap) - 24px));
+    /* 头像尺寸：同时决定悬浮菜单要给头像让出多少宽度 */
+    --avatar-size: 104px;
+    grid-area: article;
+    align-self: start;
+    justify-self: start;
+    position: sticky;
+    top: 20px;
+    box-sizing: border-box;
+    width: min(var(--rail-width), var(--rail-avail));
+    max-height: calc(100vh - 40px);
+    max-height: calc(100dvh - 40px);
+    margin-left: calc(-1 * (min(var(--rail-width), var(--rail-avail)) + var(--rail-gap)));
+    padding: 0 12px 0 0;
+  }
+}
+
+/* 导轨顶部：作者头像 + 悬浮导航（横排，位于头像下方）。
+   导航默认隐身，鼠标移到头像上或键盘进入时浮出。 */
+.sidebar-author {
+  display: none;
+}
+
+@media (min-width: 1201px) {
+  .post-details.has-catalog .sidebar-author {
+    display: flex;
+    /* 头像与下方「目录」标题之间留出呼吸感，别贴在一起 */
+    margin-bottom: 28px;
+  }
+
+  /* 文章页的站点导航：顶部一条可收起的导航栏。
+     收起时只在右侧吊着一截「灯绳 + 灯泡」作为引导；悬停 / Tab 聚焦 / 点击
+     灯泡（触摸设备）时整条展开，灯绳被拉长、灯泡点亮。
+     收起状态下整条 pointer-events: none，只有灯绳与灯泡可点，不会挡住正文。 */
+  .post-sidebar .navbar--rail {
+    /* 灯绳相对视口右边的位置。灯绳、灯泡、悬浮命中区三者都由它推导，
+       所以挪灯绳只改这一个值。36px 时贴角太近，往左挪到 64px。 */
+    --cord-right: 64px;
+    --bulb-size: 16px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: var(--topnav-collapsed);
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    background-color: transparent;
+    box-shadow: none;
+    pointer-events: none;
+    transition: height 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+    z-index: 100;
+  }
+
+  /* 灯绳：从视口顶边垂下，长度随展开动画变化 */
+  .post-sidebar .navbar--rail::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: calc(var(--cord-right) + (var(--bulb-size) - 2px) / 2);
+    width: 2px;
+    height: calc(100% - var(--bulb-size));
+    /* 用 --color-text-sub 而不是分割线色：分割线在浅色下只有 10% 不透明度，
+       合成到纸白底上是 rgb(237,236,232)，对比度仅 1.16:1，等于看不见这根绳子。
+       --color-text-sub 在深浅两套配色里都是 #8e8e8e，对比度 3.20:1 / 3.81:1。 */
+    background-color: var(--color-text-sub);
+    pointer-events: auto;
+  }
+
+  /* 灯泡 */
+  .post-sidebar .navbar--rail::after {
+    content: "";
+    position: absolute;
+    right: var(--cord-right);
+    bottom: 2px;
+    width: var(--bulb-size);
+    height: var(--bulb-size);
+    border: 1px solid var(--color-text-sub);
+    border-radius: 50%;
+    background-color: var(--bg-body);
+    box-shadow: 0 0 4px rgb(255 190 80 / 30%);
+    pointer-events: auto;
+    transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+
+  /* 悬浮命中区：灯绳本体只有 2px 宽、灯泡 16px，想「停在绳子上」很难瞄准。
+     这块透明矩形把绳子和灯泡周边一起覆盖，在附近悬浮就能展开。
+     收起状态整条 navbar 是 pointer-events: none，所以它必须自己接收事件；
+     由于它是定位元素、会盖在 ul 之上，ul 反过来抬到 z-index: 1 保证菜单项可点。 */
+  .post-sidebar .navbar--rail .rail-hit {
+    position: absolute;
+    top: 0;
+    right: calc(var(--cord-right) - 14px);
+    width: 44px;
+    height: 100%;
+    pointer-events: auto;
+  }
+
+  .post-sidebar .navbar--rail ul {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    height: var(--topnav-height);
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+
+  .post-sidebar .navbar--rail ul li {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: normal;
+    white-space: nowrap;
+  }
+
+  /* 展开状态的四个来源：:hover 让鼠标一进来立即响应；.is-hover 由 topNav.js
+     在鼠标离开后继续保留 0.5 秒（LEAVE_DELAY），避免鼠标从条下边缘划出去一下
+     就立刻收起、来不及点菜单；.is-open 是点击 / 触摸设备固定展开；:focus-within
+     管键盘 Tab。四者任一成立即展开。 */
+  .post-sidebar .navbar--rail:hover,
+  .post-sidebar .navbar--rail:focus-within,
+  .post-sidebar .navbar--rail.is-open,
+  .post-sidebar .navbar--rail.is-hover {
+    height: var(--topnav-height);
+    background-color: var(--bg-body);
+    box-shadow: 0 2px 12px rgb(0 0 0 / 10%);
+    pointer-events: auto;
+  }
+
+  .post-sidebar .navbar--rail:hover ul,
+  .post-sidebar .navbar--rail:focus-within ul,
+  .post-sidebar .navbar--rail.is-open ul,
+  .post-sidebar .navbar--rail.is-hover ul {
+    opacity: 1;
+  }
+
+  /* 拉开后灯泡亮起；同时停掉待机呼吸，否则动画会盖住这里的光晕 */
+  .post-sidebar .navbar--rail:hover::after,
+  .post-sidebar .navbar--rail:focus-within::after,
+  .post-sidebar .navbar--rail.is-open::after,
+  .post-sidebar .navbar--rail.is-hover::after {
+    background-color: #ffd479;
+    box-shadow: 0 0 10px 2px rgb(255 190 80 / 55%);
+    animation: none;
+  }
+}
+
+/* 收起时让灯泡极轻地呼吸，暗示「这里能拉」。
+   只呼吸光晕、不动几何，所以碰不到 --topnav-height 那处高度耦合；
+   prefers-reduced-motion 下完全不启用。 */
+@keyframes lamp-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 4px rgb(255 190 80 / 30%);
+  }
+
+  50% {
+    box-shadow: 0 0 7px 1px rgb(255 190 80 / 55%);
+  }
+}
+
+@media (min-width: 1201px) and (prefers-reduced-motion: no-preference) {
+  .post-sidebar .navbar--rail::after {
+    animation: lamp-breathe 2.8s ease-in-out infinite;
+  }
+}
+
+.sidebar-avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .post-details.has-catalog .catalog-content {
-  max-height: calc(100vh - 86px);
-  max-height: calc(100dvh - 86px);
+  /* 导轨顶部是悬浮导航（两列三行）与目录标题，其余空间留给目录本身 */
+  max-height: calc(100vh - 300px);
+  max-height: calc(100dvh - 300px);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
@@ -87,10 +253,9 @@
 @media (max-width: 1200px) {
   .post-details.has-catalog {
     display: block;
-    width: 90%;
   }
 
-  .post-details.has-catalog > .post-catalog {
+  .post-details.has-catalog .post-catalog {
     position: fixed;
     top: 52px !important;
     right: auto !important;
@@ -111,7 +276,7 @@
     z-index: 1001;
   }
 
-  .post-details.has-catalog > .post-catalog.hidden {
+  .post-details.has-catalog .post-catalog.hidden {
     top: 52px !important;
     opacity: 0 !important;
     visibility: hidden;
@@ -126,8 +291,9 @@
 
   .post-details.has-catalog .catalog-content {
     height: auto !important;
-    max-height: calc(100vh - 120px);
-    max-height: calc(100dvh - 120px);
+    /* 抽屉里除了目录还有导航菜单，留出它的高度 */
+    max-height: calc(100vh - 300px);
+    max-height: calc(100dvh - 300px);
   }
 
   .btn-catalog {
@@ -177,7 +343,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .post-details.has-catalog > .post-catalog,
+  .post-details.has-catalog > .post-sidebar,
   .catalog-backdrop {
     transition: none;
   }

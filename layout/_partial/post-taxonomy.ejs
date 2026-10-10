@@ -1,0 +1,39 @@
+<%
+  // 文章页的标签与分类行。桌面端由 CSS 搬到左侧导轨（目录上方），窄屏留在正文里。
+  //
+  // 这里**不读 theme.navbar 里对应项的 enable**。导航栏显不显示 Tags / Categories，
+  // 与「文章下方要不要列出标签、分类」是两件事；早先两者绑在同一个 enable 上，
+  // 关掉导航项就会连文章里的分类行一起消失。现在由 theme.postTaxonomy 单独控制，
+  // 默认都显示，只有显式设成 false 才关掉。
+  var postTaxonomy = theme.postTaxonomy || {};
+  var showTags = postTaxonomy.tags !== false;
+  var showCategories = postTaxonomy.categories !== false;
+  var postTags = page.tags && page.tags.length > 0 ? page.tags.data : [];
+  var postCategories = page.categories && page.categories.length > 0 ? page.categories.data : [];
+%>
+<div class="post-meta-line">
+  <% if (showTags && postTags.length > 0) { %>
+    <span class="post-tags">
+      <i class="iconfont icon-tags mr-10" title="<%= __('tags') %>"></i>
+      <% for (let item of postTags) { %>
+      <span class="span--tag mr-8">
+        <a href="<%= url_for(item.path) %>" title="<%- item.name %>">
+          #<%- item.name %>
+        </a>
+      </span>
+      <% } %>
+    </span>
+  <% } %>
+  <% if (showCategories && postCategories.length > 0) { %>
+    <span class="post-categories">
+      <i class="iconfont icon-bookmark" title="<%= __('categories') %>"></i>
+      <% for (let item of postCategories) { %>
+      <span class="span--category">
+        <a href="<%= url_for(item.path) %>" title="<%- item.name %>">
+          <b>#</b> <%- item.name %>
+        </a>
+      </span>
+      <% } %>
+    </span>
+  <% } %>
+</div>

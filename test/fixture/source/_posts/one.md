@@ -6,6 +6,8 @@ tags:
   - Shared
   - Triple
   - Single
+categories:
+  - Fixture Category
 ---
 
 ```javascript

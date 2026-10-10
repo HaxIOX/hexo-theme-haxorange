@@ -4,23 +4,23 @@
   <%- partial('_partial/header') %>
 
   <body>
+    <%
+      // 有目录的文章页把页头（头像 + 导航）收进左侧导轨：顶部只留放大的文章标题。
+      // 条件必须与 post.ejs 里的 hasRail 保持一致（toc 只在文章页调用）。
+      var railPage = is_post() && !page.type && theme.catalog && theme.catalog.enable
+        && (toc(page.content) || toc(page.origin));
+    %>
     <div id="app">
-      <%- partial('_partial/navigation') %>
+      <% if (!railPage) { %>
+        <%- partial('_partial/navigation') %>
+      <% } %>
 
       <div class="flex-container">
         <%- body %>
         <%- partial('_partial/footer') %>
       </div>
 
-      <div class="tools-bar">
-        <%- partial('_partial/backtotop') %>
-
-        <%- partial('_partial/search') %>
-
-        <%- partial('_partial/colorscheme') %>
-
-        <%- partial('_partial/shares') %>
-      </div>
+      <%- partial('_partial/tools') %>
     </div>
   </body>
 </html>

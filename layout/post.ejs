@@ -16,11 +16,7 @@
 
   <% if (page.type === "categories") { %>
   <!-- 分类页 url形式：https://yoursite/categories/ -->
-  <div class="container category-index">
-    <div>
-      <%- list_categories({orderby: "length", order: -1}) %>
-    </div>
-  </div>
+  <%- partial('_partial/category-index') %>
   <% } %>
 
   <% if (page.type === "friends") { %>
@@ -52,61 +48,39 @@
 
   <% if (!page.type) { %>
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-  <div class="container post-details" id="post-details">
+  <%
+    // 有目录时启用左导轨：页头让位给导轨，正文顶部只留放大的标题。
+    // 条件必须与 layout.ejs 里的 railPage 保持一致。
+    var hasRail = theme.catalog && theme.catalog.enable && (toc(page.content) || toc(page.origin));
+  %>
+  <div class="container post-details<%= hasRail ? ' has-catalog' : '' %>" id="post-details">
     <div class="post-content">
       <div class="post-title"><%- page.title %></div>
       <div class="post-attach">
         <% var _raw = (page.content || '').replace(/<[^>]+>/g, ' ').replace(/&(?:[a-zA-Z0-9]+|#\d+|#x[a-fA-F0-9]+);/g, ' ') %>
         <% var _wordCount = (_raw.match(/[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g) || []).length + (_raw.match(/[a-zA-Z0-9_]+/g) || []).length %>
-        <span class="post-wordcount">
-          <i class="iconfont icon-edit mr-10" title="<%= __('words') %>"></i>
-          <%- _wordCount %>
-        </span>
         <% var _showUpdated = page.date && page.updated && page.updated.valueOf() !== page.date.valueOf() %>
-        <% if (page.date) { %>
-        <span class="post-pubtime">
-          <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          <span class="post-date-label"><%= __('publishTime') %></span>
-          <%- page.date.format("YYYY-MM-DD HH:mm:ss") %>
-        </span>
-        <% } %>
-        <% if (_showUpdated) { %>
-        <span class="post-pubtime">
-          <i class="iconfont icon-updatetime mr-10" title="<%= __('updateTime') %>"></i>
-          <span class="post-date-label"><%= __('updateTime') %></span>
-          <%- page.updated.format("YYYY-MM-DD HH:mm:ss") %>
-        </span>
-        <% } %>
-        <% for(item of theme.navbar) {
-          if (item.key === 'tags' && item.enable) {
-            if(page.tags && page.tags.length > 0) { %>
-              <span class="post-tags">
-                <i class="iconfont icon-tags mr-10" title="<%= __('tags') %>"></i>
-                <% for(let item of page.tags.data) { %>
-                <span class="span--tag mr-8">
-                  <a href="<%= url_for(item.path)%>" title="<%- item.name %>">
-                    #<%- item.name %>
-                  </a>
-                </span>
-                <% } %>
-              </span>
-          <% }
-          }
-          if (item.key === 'categories' && item.enable) {
-            if(page.categories && page.categories.length > 0) { %>
-              <span class="post-categories">
-                <i class="iconfont icon-bookmark" title="<%= __('categories') %>"></i>
-                <% for(let item of page.categories.data){ %>
-                <span class="span--category">
-                  <a href="<%= url_for(item.path)%>" title="<%- item.name %>">
-                    <b>#</b> <%- item.name %>
-                  </a>
-                </span>
-                <% } %>
-              </span>
-          <% }
-          }
-        } %>
+        <div class="post-meta-line">
+          <span class="post-wordcount">
+            <i class="iconfont icon-edit mr-10" title="<%= __('words') %>"></i>
+            <%- _wordCount %>
+          </span>
+          <% if (page.date) { %>
+          <span class="post-pubtime">
+            <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="post-date-label"><%= __('publishTime') %></span>
+            <%- page.date.format("YYYY-MM-DD") %>
+          </span>
+          <% } %>
+          <% if (_showUpdated) { %>
+          <span class="post-pubtime">
+            <i class="iconfont icon-updatetime mr-10" title="<%= __('updateTime') %>"></i>
+            <span class="post-date-label"><%= __('updateTime') %></span>
+            <%- page.updated.format("YYYY-MM-DD") %>
+          </span>
+          <% } %>
+        </div>
+        <%- partial("_partial/post-taxonomy") %>
       </div>
       <div class="markdown-body">
         <%- page.content %>
@@ -125,45 +99,15 @@
             <span class="post-pubtime">
               <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               <span class="post-date-label"><%= __('publishTime') %></span>
-              <%- page.date.format("YYYY-MM-DD HH:mm:ss") %>
+              <%- page.date.format("YYYY-MM-DD") %>
             </span>
             <% if (_showUpdated) { %>
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="<%= __('updateTime') %>"></i>
               <span class="post-date-label"><%= __('updateTime') %></span>
-              <%- page.updated.format("YYYY-MM-DD HH:mm:ss") %>
+              <%- page.updated.format("YYYY-MM-DD") %>
             </span>
             <% } %>
-            <% for(item of theme.navbar) {
-              if (item.key === 'tags' && item.enable) {
-                if(page.tags && page.tags.length > 0) { %>
-                  <span class="post-tags">
-                    <i class="iconfont icon-tags mr-10" title="<%= __('tags') %>"></i>
-                    <% for(let item of page.tags.data) { %>
-                    <span class="span--tag mr-8">
-                      <a href="<%= url_for(item.path)%>" title="<%- item.name %>">
-                        #<%- item.name %>
-                      </a>
-                    </span>
-                    <% } %>
-                  </span>
-              <% }
-              }
-              if (item.key === 'categories' && item.enable) {
-                if(page.categories && page.categories.length > 0) { %>
-                  <span class="post-categories">
-                    <i class="iconfont icon-bookmark" title="<%= __('categories') %>"></i>
-                    <% for(let item of page.categories.data){ %>
-                    <span class="span--category">
-                      <a href="<%= url_for(item.path)%>" title="<%- item.name %>">
-                        <b>#</b> <%- item.name %>
-                      </a>
-                    </span>
-                    <% } %>
-                  </span>
-              <% }
-              }
-            } %>
           </div>
           <div class="post-foot-prev">
             <% if(page.prev) { %>
@@ -176,7 +120,14 @@
         </div>
       <% } %>
     </div>
-    <%- partial("_partial/catalog") %>
+    <aside class="post-sidebar">
+      <% if (theme.avatar && theme.avatar.author_photo) { %>
+        <div class="sidebar-author">
+          <img class="sidebar-avatar" src="<%- theme.avatar.author_photo %>" alt="<%- theme.avatar.author_nickname %>">
+        </div>
+      <% } %>
+      <%- partial("_partial/catalog") %>
+    </aside>
     <% if(theme.comments.enable) { %>
       <div class="comments-container">
         <%- partial("_partial/comments") %>

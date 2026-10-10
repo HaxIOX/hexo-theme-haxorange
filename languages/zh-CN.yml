@@ -20,7 +20,7 @@ page: 第 %d 页
 recent_posts: 最新文章
 newer: Newer
 older: Older
-share: Share
+share: 分享
 powered_by: Powered by
 rss_feed: RSS Feed
 category: Category
@@ -46,3 +46,6 @@ about_activity_day: "%s：%d 篇"
 about_less: 少
 about_more: 多
 about_recent_posts: 最近文章
+backToTop: 回到顶部
+searchLabel: 搜索
+colorScheme: 切换配色

@@ -165,6 +165,18 @@ function assertGeneratedSite(siteRoot, mode) {
 
   assert.match(post, /Publish time/);
   assert.doesNotMatch(post, /Update time/);
+  assert.match(post, /post-meta-line/);
+
+  // 导航项与文章分类行必须解耦。
+  // 主题默认 _config.yml 里 navbar 的 Categories 是 enable: false，而文章下方的
+  // 分类行由 postTaxonomy 单独控制、默认显示。所以下面两件事要同时成立：
+  // 「导航里没有 Categories 项」+「文章里有分类行」。
+  // 早先两者共用 navbar 那一项的 enable，这条断言会直接失败。
+  assert.doesNotMatch(post, /data-path="\/categories\/"/,
+    '导航栏不该出现 Categories 项（主题默认 enable: false）');
+  assert.match(post, /class="post-categories"/,
+    '文章下方的分类行由 postTaxonomy 控制，不该跟着导航项的 enable 一起消失');
+  assert.match(post, /class="post-tags"/);
 
   const updatedPost = readPublic(path.join('three', 'index.html'));
   assert.match(updatedPost, /Publish time/);

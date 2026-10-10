@@ -110,6 +110,14 @@ navbar:
     path: /about/
     key: about
 
+# 文章页的标签 / 分类行（正文里的 #标签、分类链接）。
+# 与上面的 navbar 相互独立：导航栏显不显示 Tags / Categories，跟文章下方要不要
+# 列出标签、分类是两件事。早先两者共用 navbar 里那一项的 enable，于是想去掉导航项
+# 就会连文章里的分类行一起消失。这里设成 false 可单独关掉对应那一行（默认都显示）。
+postTaxonomy:
+  tags: true
+  categories: true
+
 # 标签首页：仅展示文章数达到阈值的常用标签
 tagIndex:
   minimumCount: 2

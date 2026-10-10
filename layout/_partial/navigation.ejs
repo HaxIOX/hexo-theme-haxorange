@@ -1,3 +1,8 @@
+<%
+  // rail: true 时只渲染导航菜单本身（用于文章页左导轨），不渲染页头的头像。
+  var railNav = typeof rail !== 'undefined' && rail;
+%>
+<% if (!railNav) { %>
 <div class="header">
   <div class="avatar">
     <a href="<%- theme.avatar.path %>">
@@ -10,7 +15,13 @@
     </a>
     <div class="nickname"><a href="<%- theme.avatar.path %>"><%- theme.avatar.author_nickname %></a></div>
   </div>
-  <div class="navbar">
+<% } %>
+  <div class="navbar<%= railNav ? ' navbar--rail' : '' %>">
+    <% if (railNav) { %>
+    <!-- 灯绳导航的悬浮命中区：灯绳本体只有 2px 宽，瞄准很难，
+         这块透明矩形把「灯绳附近」也算进可悬浮范围（样式见 catalog-left.css） -->
+    <span class="rail-hit" aria-hidden="true"></span>
+    <% } %>
     <ul>
       <%
         for(let item of theme.navbar) {
@@ -25,6 +36,12 @@
       %>
     </ul>
   </div>
+<% if (!railNav) { %>
 </div>
+<% } %>
 
 <%- js(['/js/activeNav.js']) %>
+
+<% if (railNav) { %>
+  <%- js(['/js/topNav.js']) %>
+<% } %>

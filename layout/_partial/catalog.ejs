@@ -3,6 +3,7 @@
     <i class="iconfont icon-catalog" aria-hidden="true"></i>
   </button>
   <div class="post-catalog hidden" id="catalog">
+    <%- partial('_partial/navigation', { rail: true }) %>
     <div class="title"><%= __('catalog') %></div>
     <div class="catalog-content">
       <% if (page.encrypt == true) { %>
