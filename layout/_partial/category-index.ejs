@@ -1,0 +1,21 @@
+<%
+  // 分类索引页。与 _partial/tag-index.ejs 同构：页头（标题 + 总数）+ 铺满版心的网格。
+  //
+  // 早先这里只有一句 list_categories()，输出一个裸的 <ul>：没有页头、没有版式，
+  // 三两个分类缩在 760px 版心的最左端（实测内容只占 332..413，右侧空 679px）。
+  // 试图用「整块收缩后居中」补救过，结果只是变成一小撮列表飘在版心中央，更难看。
+  // 真正缺的是结构：条目排成三列网格后，包裹块本身就铺满版心，宽度由版式决定。
+  //
+  // 条目仍由 Hexo 的 list_categories() 生成（orderby: length 即按文章数从多到少），
+  // 只是把它的 <ul>/<li> 用 CSS 排成网格。不像标签页那样有阈值与筛选框，故无配套 JS。
+  var allCategories = site.categories && site.categories.data ? site.categories.data : [];
+%>
+
+<div class="container category-index">
+  <header class="category-index-header">
+    <h1><%= __('categories') %></h1>
+    <span class="category-index-total"><%= allCategories.length %></span>
+  </header>
+
+  <%- list_categories({orderby: "length", order: -1}) %>
+</div>

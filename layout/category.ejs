@@ -6,16 +6,19 @@
       <span><%- page.category %></span>
     </h2>
   </div>
-  <% page.posts.sort('date', -1).each(function(item) { %>
-    <div class="post-list">
+  <!-- .post-list 是 fit-content + margin auto 的收缩居中块，必须只包一层、且在循环外：
+       写在循环里会变成「每篇各自居中」，各行左边缘参差不齐。放在外面才能让各行共用
+       同一左边缘、整块在版心内居中（与首页 index.ejs 的写法一致）。 -->
+  <div class="post-list">
+    <% page.posts.sort('date', -1).each(function(item) { %>
       <div class="post-item" title="<%- item.title %>">
         <span class="time-m-d"><%- item.date.format("YYYY-MM-DD") %></span>
         <a href="<%- url_for(item.path) %>">
           <span><%- item.title %></span>
         </a>
       </div>
-    </div>
-  <% }) %>
+    <% }) %>
+  </div>
   <nav class="post-navigation">
     <% if(page.prev !== 0){ %>
       <a href="<%- url_for(page.prev_link)%>"><i class="iconfont icon-angleleft"></i></a>

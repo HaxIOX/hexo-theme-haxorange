@@ -79,23 +79,34 @@ a:hover {
 
 .header {
   padding: 50px 0;
+  /* 与 .flex-container 相同的滚动条补偿：保证有/无滚动条时页头与正文一起居中，
+     两者的左边缘始终落在同一个 x 上，同时避免滚动条出现导致的横向抖动。 */
+  margin-left: calc(100vw - 100%);
+}
+
+/* ===== 统一版心 =====
+   --content-width  容器总宽（含左右内边距），--content-inset 容器内文字内缩。
+   --content-pad 是实际使用值，窄屏会在下面的 media query 里收窄。
+   正文区宽度 = 840 - 40 * 2 = 760px，列表页、文章页与页头共用同一组左右边缘。
+   --rail-width / --rail-gap 是文章页左侧导轨（工具图标 + 目录）的宽度与间距。 */
+:root {
+  --content-width: 840px;
+  --content-inset: 40px;
+  --content-pad: var(--content-inset);
+  --rail-width: 200px;
+  --rail-gap: 48px;
+  /* 顶部收起式导航条（样式在 catalog-left.css，只在 ≥1201px 的文章页存在）。
+     展开高度同时被下面文章页的 padding-top 用到，所以提到这里共用，
+     免得两处各写一个 56px、改一处忘另一处。 */
+  --topnav-height: 56px;
+  --topnav-collapsed: 30px;
 }
 
 .container {
-  width: 50%;
+  width: min(var(--content-width), 90%);
+  box-sizing: border-box;
+  padding: 0 var(--content-pad);
   margin: 0 auto;
-}
-
-.index .post-list,
-.friend-index .friend-list,
-.archives .post-list,
-.tag-index .tag-list,
-.about-index .markdown-body {
-  padding: 0 40px;
-}
-
-.category-index .category-list {
-  padding: 0 110px;
 }
 
 .btn-catalog {
@@ -103,18 +114,8 @@ a:hover {
 }
 
 @media (max-width: 888px) {
-  .container {
-    width: 90%;
-  }
-  .index .post-list,
-  .friend-index .friend-list,
-  .archives .post-list,
-  .tag-index .tag-list,
-  .about-index .markdown-body {
-    padding: 0;
-  }
-  .category-index .category-list {
-    padding: 0 40px;
+  :root {
+    --content-pad: 20px;
   }
   .btn-catalog {
     display: block;
@@ -164,21 +165,90 @@ a:hover {
   }
 }
 
-@media (max-width: 1200px) and (min-width: 887px) {
-  .index .post-list,
-  .friend-index .friend-list,
-  .archives .post-list,
-  .tag-index .tag-list,
-  .about-index .markdown-body {
-    padding: 0 20px;
-  }
+/* 首页与分类页的文章列表：各行左对齐共用同一左边缘，
+   整个列表块按内容宽度收缩后在版心内居中（否则文字只占盒子左半边，看上去整块偏左） */
+.index .post-list,
+.category-details .post-list {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
+/* 分类索引页（_partial/category-index.ejs）与 /tags/ 页同构：页头 + 铺满版心的网格。
+   这里刻意不用「整块收缩后居中」：三两个分类缩到 81px 宽再居中，只是变成一小撮
+   列表飘在版心中央，比贴左更难看。排成三列网格后包裹块本身就铺满 760px，
+   宽度由版式决定，「居中不居中」这个问题自然消失。 */
+.category-index-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 34px;
+}
+
+.category-index-header h1 {
+  margin: 0;
+  color: var(--color-text-a);
+  font-size: 2.4rem;
+  line-height: 1.3;
+}
+
+.category-index-total {
+  flex-shrink: 0;
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: var(--color-text-sub);
+  background-color: var(--color-divider-md-border);
+  font-size: 1.3rem;
+  line-height: 20px;
+  text-align: center;
+}
+
+/* 网格参数照抄 tags.css 的 .tag-directory，两页看起来才像一套 */
+.category-index .category-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.category-index .category-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--color-divider-md-border);
+  box-sizing: border-box;
+  font-size: 1.5rem;
+  line-height: 20px;
+}
+
+/* 条目变成 flex 后 ::marker 本就不会生成，这里显式关掉上面那条「• 」规则，
+   免得以后有人把它改回 display: list-item 时圆点又冒出来 */
+.category-index .category-list-item::marker {
+  content: none;
+}
+
+.category-index .category-list-count {
+  flex-shrink: 0;
+  padding: 0;
+  color: var(--color-text-sub);
+  font-size: 1.3rem;
+}
+
+/* 列表行：日期在文章名之前；行内左对齐，便于扫读 */
 .post-item {
   display: flex;
   font-size: 1.6rem;
   margin-bottom: 20px;
   align-items: center;
+  justify-content: flex-start;
   line-height: 21px;
 }
 
@@ -206,14 +276,22 @@ a:hover {
   padding-right: 8px;
 }
 
-.tag-details .time-m-d, .archives .time-m-d, .category-details .time-m-d {
+/* 归档与标签详情页的行是整宽的，给日期两侧留白当呼吸感。
+   分类详情页不在此列：它的 .post-list 是收缩居中的块，日期再带 30px 左边距会让
+   整块内容相对包围盒右偏 30px（实测 ink 517..937 vs 块 487..937）。让它回落到
+   下面 .post-item .time-m-d 的基础规则（只有右边距），与首页列表保持一致。
+   窄屏那条规则本来就已经排除了 .category-details。 */
+.tag-details .time-m-d, .archives .time-m-d {
   margin: 0 30px;
 }
 
+/* 页头与正文共用同一列并整体居中：头像、昵称、导航均保持居中 */
 .avatar {
+  width: min(var(--content-width), 90%);
+  box-sizing: border-box;
   text-align: center;
-  padding-bottom: 30px;
-  margin-left: calc(100vw - 100%);
+  padding: 0 var(--content-pad) 30px;
+  margin: 0 auto;
 }
 
 .avatar img {
@@ -242,7 +320,10 @@ a:hover {
 }
 
 .navbar {
-  margin-left: calc(100vw - 100%);
+  width: min(var(--content-width), 90%);
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 var(--content-pad);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -301,8 +382,8 @@ a:hover {
 
 .post-navigation {
   font-size: 1.5rem;
-  padding: 20px 90px;
-  text-align: right;
+  padding: 20px 0;
+  text-align: center;
   color: var(--color-text-base);
 }
 
@@ -312,18 +393,6 @@ a:hover {
 
 .post-navigation .page-num {
   padding: 0 10px;
-}
-
-@media (max-width: 888px) {
-  .post-navigation {
-    padding: 20px 0;
-  }
-}
-
-@media (max-width: 1200px) and (min-width: 887px) {
-  .post-navigation {
-    padding: 20px 20px;
-  }
 }
 
 .tag-list li {
@@ -394,19 +463,49 @@ a:hover {
   color: var(--color-text-a)
 }
 
+/* 文章标题：居中并放大，作为文章页顶部的主标题 */
 .post-details .post-title {
   text-align: center;
-  font-size: 2.2rem;
+  font-size: 2.9rem;
   font-weight: 600;
   color: var(--color-text-a);
-  padding-bottom: 10px;
+  padding-bottom: 14px;
+}
+
+/* 文章页顶部不再有页头（头像与导航搬进了左导轨），补回上方的留白。
+   收起式导航条（catalog-left.css）是 fixed 悬浮的，展开后高 --topnav-height，
+   且只在 ≥1201px 存在，所以只在这一档多留一段间隙，不让正文标题紧贴条的下边缘；
+   窄屏没有这条悬浮条，就正好留出与展开高度等量的那段。 */
+.container.post-details.has-catalog {
+  padding-top: var(--topnav-height);
+}
+
+@media (min-width: 1201px) {
+  .container.post-details.has-catalog {
+    /* = --topnav-height(56) + 24px 额外呼吸感，当前即 80px */
+    padding-top: calc(var(--topnav-height) + 24px);
+  }
 }
 
 .post-details .post-attach {
   font-size: 1.4rem;
   text-align: center;
-  padding-bottom: 30px;
+  /* 标题（含元信息）与正文之间的留白 */
+  padding-bottom: 46px;
   color: var(--color-text-a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 文章顶部元信息拆两行时纵向排列 */
+.post-content > .post-attach {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.post-attach .post-meta-line {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -475,13 +574,9 @@ a:hover {
   }
 }
 
+/* 目录在文章页左导轨里的定位由 catalog-left.css 负责，这里只保留排版 */
 .post-catalog {
-  position: absolute;
-  top: calc(290px + 88px + 30px);
-  right: 50px;
-  width: calc(20% - 50px);
   font-size: 1.4rem;
-  padding-left: 10px;
 }
 
 .post-catalog .title {
@@ -716,4 +811,38 @@ a:hover {
   font-size: 1rem;
   line-height: 1rem;
   white-space: nowrap;
+}
+
+/* ===== 导轨内的导航菜单 =====
+   文章页把页头的导航搬进左导轨，改为竖排、左对齐；窄屏时它随目录抽屉一起出现。 */
+.navbar--rail {
+  display: block;
+  width: auto;
+  margin: 0 0 16px;
+  padding: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-divider-md-border);
+}
+
+.navbar--rail ul {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.navbar--rail ul li {
+  display: block;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: normal;
+  text-align: left;
+}
+
+.navbar--rail ul li a {
+  color: var(--color-text-sub);
+}
+
+.navbar--rail ul li a:hover,
+.navbar--rail ul li.active a {
+  color: var(--color-text-a);
 }

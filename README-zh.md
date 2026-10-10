@@ -185,6 +185,10 @@ navbar:
     path: /categories/
 ```
 
+> 这里的 `enable` 只管**导航栏那一项**。文章标题下方的分类行由 `postTaxonomy.categories`
+> 单独控制（默认显示），两者互不影响 —— 所以「导航栏不显示分类，但文章里仍保留分类行」
+> 是允许的；反过来也一样。`postTaxonomy.tags` 同理。
+
 </details>
 
 <details>
