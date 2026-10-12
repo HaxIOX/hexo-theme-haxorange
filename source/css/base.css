@@ -165,9 +165,8 @@ a:hover {
   }
 }
 
-/* 首页与分类页的文章列表：各行左对齐共用同一左边缘，
-   整个列表块按内容宽度收缩后在版心内居中（否则文字只占盒子左半边，看上去整块偏左） */
-.index .post-list,
+/* 分类详情页的文章列表：各行左对齐共用同一左边缘，
+   整个列表块按内容宽度收缩后在版心内居中（否则文字只占盒子左半边，看上去整块偏左）。 */
 .category-details .post-list {
   width: fit-content;
   max-width: 100%;
@@ -387,6 +386,15 @@ a:hover {
 
 .post-navigation .page-num {
   padding: 0 10px;
+}
+
+/* 首页分页照上游靠右并内缩：上游的 .post-navigation 是 padding: 20px 90px，右边缘距版心边 90px。
+   我们的 .container 自己已经有 --content-pad(40px) 的内缩，这里只补差额；窄屏 --content-pad
+   收到 20px 时自动变 70px，始终离版心边 90px。首页列表铺满文字盒，所以分页比它再进 50px。
+   分类 / 标签详情页的列表仍是收缩居中的块、分页跟着居中，所以这里只限定 .index。 */
+.index .post-navigation {
+  text-align: right;
+  padding-right: calc(90px - var(--content-pad));
 }
 
 /* .tag-list* 整族规则已移除：标签页改用 tags.css 的自绘网格，list_tags() 不再被调用 */

@@ -20,6 +20,7 @@
 
 ### Changed
 
+- Left-aligned the home post list so the rows share one left edge instead of shrinking to their content and centring. The shrunken block was centred on the longest title, so the whole list jumped sideways between pages. The rows now fill the column's text box, matching upstream's `padding: 0 40px` relationship. The home pagination is right-aligned and keeps upstream's 90px inset from the column edge, so it sits 50px inside the list's right edge. The category detail page keeps its shrink-centred list.
 - Rebuilt the friends page as a page header plus a responsive avatar card grid that matches the tag and category index pages, and moved the markup into `_partial/friend-index.ejs` with its styles in `friends.css`.
 - Added a compact friends list for long lists: entries drop the card padding (18px to 8px), the avatar shrinks to 32px, and the description clamps to one ellipsised line, taking an entry from about 110px to about 60px. The first attempt also narrowed the compact list to two columns, which gained only about 15% because dropping a column gave back most of the height it saved; both layouts now share the same three/two/one column breakpoints.
 - Friend cards now link the nickname and show the bare host as a subtitle instead of printing the full URL, skip the description line when `meta` is empty, and carry `rel="noopener"` on their external links.
