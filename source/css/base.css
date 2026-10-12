@@ -270,12 +270,6 @@ a:hover {
   text-overflow: ellipsis;
 }
 
-.post-item .title .post-top {
-  font-weight: 600;
-  font-size: 1.7rem;
-  padding-right: 8px;
-}
-
 /* 归档与标签详情页的行是整宽的，给日期两侧留白当呼吸感。
    分类详情页不在此列：它的 .post-list 是收缩居中的块，日期再带 30px 左边距会让
    整块内容相对包围盒右偏 30px（实测 ink 517..937 vs 块 487..937）。让它回落到
@@ -395,44 +389,8 @@ a:hover {
   padding: 0 10px;
 }
 
-.tag-list li {
-  font-size: 1.6rem;
-  display: inline-block;
-  padding: 10px;
-}
-
-.tag-list li .tag-list-link {
-  position: relative;
-  padding: 0 2px;
-  border-radius: 2px;
-}
-
-/*.tag-list li .tag-list-link:hover {
-  color: #fff;
-}*/
-
-/*.tag-list li .tag-list-link::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -2px;
-  right: -2px;
-  transition: transform 0.1s linear;
-  background: gray;
-  opacity: 0.8;
-  transform: scaleX(0);
-  transform-origin: right;
-  z-index: -1;
-  border-radius: 2px;
-}
-
-.tag-list li .tag-list-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}*/
-
-.tag-list-count, .category-list-count {
+/* .tag-list* 整族规则已移除：标签页改用 tags.css 的自绘网格，list_tags() 不再被调用 */
+.category-list-count {
   padding: 0 5px;
   color: #aaa;
   font-size: 1.2rem;
@@ -453,15 +411,7 @@ a:hover {
   padding-left: 30px;
 }
 
-.friend-list-item {
-  font-size: 1.6rem;
-  padding: 10px;
-}
-
-.friend-list-item .nickname {
-  padding-right: 10px;
-  color: var(--color-text-a)
-}
+/* 友链页的版式在 friends.css（仅在 page.type === "friends" 时引入） */
 
 /* 文章标题：居中并放大，作为文章页顶部的主标题 */
 .post-details .post-title {

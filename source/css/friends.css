@@ -1,0 +1,238 @@
+/* Friends page: page header plus an avatar card grid (few links) or a compact list (many links).
+   页头与计数徽标沿用 tags.css 的 .tag-index-header / .tag-index-total，
+   卡片本身沿用 about.styl 里 .about-profile-card 的描边、圆角与配色；
+   两种版式由 friendIndex.compactFrom 的条目数阈值切换（见下面的「紧凑列表」）。 */
+
+.friend-index-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 34px;
+}
+
+.friend-index-header h1 {
+  margin: 0;
+  color: var(--color-text-a);
+  font-size: 2.4rem;
+  line-height: 1.3;
+}
+
+.friend-index-total {
+  flex-shrink: 0;
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: var(--color-text-sub);
+  background-color: var(--color-divider-md-border);
+  font-size: 1.3rem;
+  line-height: 20px;
+  text-align: center;
+}
+
+.friend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.friend-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--color-divider-md-border);
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: var(--bg-body);
+}
+
+.friend-card:hover {
+  border-color: var(--color-text-sub);
+}
+
+.friend-avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-divider-md-border);
+  border-radius: 50%;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
+/* 未配置头像时的首字母徽标：与 .about-avatar 同样是「一圈描边的圆形」，
+   只是空心 + 一个字母，所以没有图片的条目和有条目的看起来是一套东西。
+   字色用 --color-text-a、底色用 --bg-body：浅色 5.6:1 / 深色 7.0:1，
+   比跟随分割线色（浅色 2.7:1 / 深色 2.7:1）的可读性好得多。 */
+.friend-avatar-initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-a);
+  background-color: var(--bg-body);
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1;
+  user-select: none;
+}
+
+.friend-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.friend-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.friend-name {
+  color: var(--color-text-a);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.friend-link:hover .friend-name {
+  color: var(--color-text-a-hover);
+}
+
+.friend-host {
+  color: var(--color-text-sub);
+  font-size: 1.3rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.friend-meta {
+  margin-top: 8px;
+  color: var(--color-text-base);
+  font-size: 1.4rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* ===== 紧凑列表 =====
+   友链数量达到 friendIndex.compactFrom 时启用（模板加 .friend-grid--compact）。
+
+   为什么要这一档：卡片每项约 110px 高（18px 上下内边距 + 44px 头像 + 折行的描述），
+   三列一屏只放得下约 14 条，40 条友链要滚好几屏。密度要从三处省：
+   卡片内边距、头像尺寸、描述折行 —— 少任何一处都白改。
+
+   列数保持跟卡片网格一样的 3/2/1（见文件末尾的 media query）：一度试过这里收成两列，
+   算下来 2 列 × 64px 只比 3 列 × 110px 密 15%，等于没改。所以这里的重点不是列，
+   是把每项压到约 60px（无描述时约 37px），一屏约 30 条。 */
+
+.friend-grid--compact {
+  /* 行距交给每行那条分割线，列距跟 .tag-directory 一样取 18px */
+  gap: 0 18px;
+}
+
+/* 紧凑列表不需要卡片那份呼吸感，页头到第一行的留白收窄一点 */
+.friend-index--compact .friend-index-header {
+  margin-bottom: 20px;
+}
+
+.friend-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 8px;
+  border-bottom: 1px solid var(--color-divider-md-border);
+  box-sizing: border-box;
+}
+
+/* 卡片上 44px 的头像在这一档会把行高垫到 60px 以上，缩到 32px。
+   尺寸只在 CSS 里定义：friend-avatar.ejs 不写 width/height，所以这里改一处就够。 */
+.friend-row .friend-avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 1.4rem;
+}
+
+.friend-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.friend-row-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* 昵称、域名、描述都压成一行，超出用省略号：行高才稳得住，不会被长描述顶成三行 */
+.friend-row-line .friend-name,
+.friend-row-line .friend-host,
+.friend-row .friend-meta {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 昵称是主标识，先按内容撑开（最多占 60%，太长自己省略），剩余宽度留给定长域名去省略 */
+.friend-row-line .friend-name {
+  flex-shrink: 0;
+  max-width: 60%;
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.friend-row-line .friend-host {
+  flex-shrink: 1;
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+.friend-row .friend-meta {
+  margin-top: 0;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+/* 只有整行是链接时才给悬浮反馈；没有 site 的条目是 <span>，不该亮 */
+a.friend-row:hover .friend-name {
+  color: var(--color-text-a-hover);
+}
+
+/* 正文与卡片之间留白；字号写成分组选择器，避免依赖 friends.css 与 main.css 的加载先后 */
+.friend-intro {
+  margin-top: 34px;
+}
+
+.friend-intro.markdown-body {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .friend-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .friend-index-header {
+    margin-bottom: 28px;
+  }
+
+  .friend-index--compact .friend-index-header {
+    margin-bottom: 16px;
+  }
+
+  /* 卡片与紧凑列表都在这一档收成单列（列数本来就是共用的，这里只是收窄） */
+  .friend-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

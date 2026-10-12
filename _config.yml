@@ -51,6 +51,9 @@ comments:
     repo:
     owner:
     admin:
+    # 评论区标识，gitalk 用它区分每篇文章的 issue。
+    # 这个值会**原样当成 JS 表达式**写进页面：默认的 location.pathname 是运行时取当前路径。
+    # 想用固定字符串请自己套引号，例如 id: "'thread-1'"
     id: location.pathname
     distractionFreeMode: false
 
@@ -149,17 +152,27 @@ prevnext:
 
 # 友链详细信息：支持多个友链
 friends:
-  # nickname: 昵称
-  # site: 地址
-  # meta: 描述
+  # nickname: 昵称，卡片主标题
+  # site: 地址，卡片整体即此链接，副标题显示去掉协议的域名
+  # meta: 描述，留空则整个段落不渲染
+  # avatar: 头像（可选），填 /images/xxx.png 这类站内路径或完整外链；留空则用昵称首字母徽标
   -
     nickname: Zcheng
     site: https://zcheng.site/
     meta:
+    avatar:
   -
     nickname: Hexo
     site: https://hexo.io/
     meta:
+    avatar:
+
+# 友链页版式：条目数达到 compactFrom 时，从卡片网格切换成紧凑列表。
+# 卡片每项约 110px 高，条目一多就滚不完；紧凑列表压掉内边距、缩小头像、把描述收成一行，
+# 每项约 60px，一屏能看约 30 条。两者列数相同（三列 / ≤1200px 两列 / ≤640px 单列）。
+# 留空取 12；填 0（或负数）表示永远用卡片网格。
+friendIndex:
+  compactFrom: 12
 
 # 页脚信息
 footer:
@@ -323,7 +336,10 @@ cdns:
 
     waline:
       enable: false
-      url: https://cdn.jsdelivr.net/npm/@waline/client@2.5.1/dist/legacy.min.js
+      # 模板用 import 加载 waline，所以这里必须是 ES module 构建（waline.mjs），不能用 legacy.min.js
+      url:
+        css: https://cdn.jsdelivr.net/npm/@waline/client@2.5.1/dist/waline.css
+        js: https://cdn.jsdelivr.net/npm/@waline/client@2.5.1/dist/waline.mjs
 
 # 主题色
 themeColor: '#808080'

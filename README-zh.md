@@ -92,6 +92,28 @@ navbar:
     path: /friends/
 ```
 
+页面版式是「页头（标题 + 总数）+ 条目区」，条目数据来自同一份配置里的 `friends` 列表：
+
+```yml
+friends:
+  -
+    nickname: Hexo          # 昵称
+    site: https://hexo.io/  # 链接地址
+    meta: A fast, simple and powerful blog framework  # 描述，留空则整段不渲染
+    avatar:                # 头像，可选；留空则用昵称首字母徽标
+
+# 条目数达到 compactFrom 时，自动从卡片网格切换成紧凑列表
+friendIndex:
+  compactFrom: 12
+```
+
+条目少时是卡片网格（每项约 110px），条目多时是紧凑列表（每项约 60px，一屏约 30 条）——
+两者列数相同（三列 → ≤1200px 两列 → ≤640px 单列），紧凑列表省的是卡片内边距、头像尺寸
+与描述折行。`compactFrom` 留空取 12，填 `0` 或负数表示永远用卡片网格。
+
+副标题显示的是去掉协议、`www.` 与结尾斜杠后的地址（`https://hexo.io/` → `hexo.io`），
+不再把完整 URL 当链接文字。`avatar` 可以填 `/images/xxx.png` 这类站内路径，也可以填完整外链。
+
 </details>
 
 <details>
@@ -420,6 +442,9 @@ lazyload:
   ```
 
   默认值为`en`，可选项在主题下`languages`语言文件中查看，修改为对应文件名即可。
+
+  目前只有 `default.yml`（英文）与 `zh-CN.yml` 是完整文案。其余语言缺少关于页的 14 个 `about_*` 键，
+  缺键不会报错，只是这几句会回落成英文；想补齐就照着 `default.yml` 往对应文件里加。
   
 </details>
 

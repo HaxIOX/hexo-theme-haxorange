@@ -1,0 +1,121 @@
+<%
+  // 友链页 url形式：https://yoursite/friends/
+  // 数据来自主题配置的 friends 字段，每项支持 nickname / site / meta / avatar。
+  // 两种版式由条目数量决定：少时卡片网格，多时紧凑列表（阈值见 friendIndex.compactFrom）。
+  var friends = Array.isArray(theme.friends) ? theme.friends : [];
+
+  function friendText(value) {
+    return value === undefined || value === null ? '' : String(value).trim();
+  }
+
+  // 卡片副标题只显示域名：去掉协议、www. 与结尾斜杠，https://hexo.io/ → hexo.io
+  function friendHost(site) {
+    return site
+      .replace(/^[a-z][a-z0-9+.-]*:\/\//i, '')
+      .replace(/^www\./i, '')
+      .replace(/\/+$/, '');
+  }
+
+  // 没有配置 avatar 时退化成首字母徽标，避免出现空白圆
+  function friendInitial(nickname, host) {
+    var source = friendText(nickname) || host;
+    var chars = Array.from(source.replace(/^@+/, '').trim());
+    return chars.length ? chars[0].toUpperCase() : '?';
+  }
+
+  var friendList = friends.map(function (friend) {
+    friend = friend || {};
+    var nickname = friendText(friend.nickname);
+    var site = friendText(friend.site);
+    var host = friendHost(site);
+    return {
+      nickname: nickname,
+      site: site,
+      host: host,
+      meta: friendText(friend.meta),
+      avatar: friendText(friend.avatar),
+      initial: friendInitial(nickname, host)
+    };
+  }).filter(function (friend) {
+    // 既没有昵称又没有地址的条目直接丢掉，不占一个空位
+    return friend.nickname || friend.site;
+  });
+
+  // 条目数达到阈值就换紧凑列表。阈值留空取 12；填 0（或负数）表示永远用卡片网格。
+  var compactRaw = theme.friendIndex ? theme.friendIndex.compactFrom : undefined;
+  var compactFrom = (compactRaw === undefined || compactRaw === null || compactRaw === '')
+    ? 12
+    : Number(compactRaw);
+  if (!isFinite(compactFrom)) compactFrom = 12;
+  var useCompact = compactFrom > 0 && friendList.length >= compactFrom;
+%>
+
+<div class="container friend-index<%= useCompact ? ' friend-index--compact' : '' %>">
+  <header class="friend-index-header">
+    <h1><%= __('friends') %></h1>
+    <span class="friend-index-total"><%= friendList.length %></span>
+  </header>
+
+  <% if (friendList.length) { %>
+    <% if (useCompact) { %>
+      <!-- 紧凑列表：整行就是链接，行与行之间只用一条分割线，一屏放得下比卡片网格多得多的条目 -->
+      <div class="friend-grid friend-grid--compact">
+        <% friendList.forEach(function (friend) { %>
+          <% if (friend.site) { %>
+            <a class="friend-row" href="<%= friend.site %>" target="_blank" rel="noopener">
+              <%- partial('_partial/friend-avatar', { friend: friend }) %>
+              <span class="friend-row-main">
+                <span class="friend-row-line">
+                  <span class="friend-name"><%= friend.nickname || friend.host %></span>
+                  <span class="friend-host"><%= friend.host %></span>
+                </span>
+                <% if (friend.meta) { %>
+                  <span class="friend-meta"><%= friend.meta %></span>
+                <% } %>
+              </span>
+            </a>
+          <% } else { %>
+            <span class="friend-row">
+              <%- partial('_partial/friend-avatar', { friend: friend }) %>
+              <span class="friend-row-main">
+                <span class="friend-row-line">
+                  <span class="friend-name"><%= friend.nickname %></span>
+                </span>
+                <% if (friend.meta) { %>
+                  <span class="friend-meta"><%= friend.meta %></span>
+                <% } %>
+              </span>
+            </span>
+          <% } %>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="friend-grid">
+        <% friendList.forEach(function (friend) { %>
+          <article class="friend-card">
+            <%- partial('_partial/friend-avatar', { friend: friend }) %>
+            <div class="friend-body">
+              <% if (friend.site) { %>
+                <a class="friend-link" href="<%= friend.site %>" target="_blank" rel="noopener">
+                  <span class="friend-name"><%= friend.nickname || friend.host %></span>
+                  <span class="friend-host"><%= friend.host %></span>
+                </a>
+              <% } else { %>
+                <span class="friend-link">
+                  <span class="friend-name"><%= friend.nickname %></span>
+                </span>
+              <% } %>
+              <% if (friend.meta) { %>
+                <p class="friend-meta"><%= friend.meta %></p>
+              <% } %>
+            </div>
+          </article>
+        <% }); %>
+      </div>
+    <% } %>
+  <% } %>
+
+  <% if ((page.content || '').trim()) { %>
+    <div class="friend-intro markdown-body"><%- page.content %></div>
+  <% } %>
+</div>

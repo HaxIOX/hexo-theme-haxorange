@@ -100,8 +100,8 @@
         repo: '<%- theme.comments.gitalk.repo %>',
         owner: '<%- theme.comments.gitalk.owner %>',
         admin: ['<%- theme.comments.gitalk.admin %>'],
-        id: location.pathname,
-        distractionFreeMode: false
+        id: <%- theme.comments.gitalk.id %>,
+        distractionFreeMode: <%- theme.comments.gitalk.distractionFreeMode %>
       })
 
       gitalk.render('gitalk-container')

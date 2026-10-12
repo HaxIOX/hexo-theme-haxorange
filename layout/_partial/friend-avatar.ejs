@@ -1,0 +1,11 @@
+<%
+  // 友链头像：配置了 avatar 就渲染图片，否则用昵称首字母徽标。
+  // 尺寸完全由 friends.css 的 .friend-avatar 决定（卡片与紧凑列表共用 44px），
+  // 这里不写 width/height：圆形尺寸由 CSS 固定，图片晚到也不会撑动布局，
+  // 而写死一份像素值只会多出一处「改一处忘另一处」的耦合。
+%>
+<% if (friend.avatar) { %>
+  <img class="friend-avatar" src="<%= url_for(friend.avatar) %>" alt="" loading="lazy" decoding="async">
+<% } else { %>
+  <span class="friend-avatar friend-avatar-initial" aria-hidden="true"><%= friend.initial %></span>
+<% } %>

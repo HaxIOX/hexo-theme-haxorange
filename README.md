@@ -117,6 +117,31 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
       path: /friends/
   ```
 
+  The page renders a header (title plus total) followed by the friend list, driven by the
+  `friends` entries and the `friendIndex` threshold in the same config file:
+
+  ```yml
+  friends:
+    -
+      nickname: Hexo          # nickname
+      site: https://hexo.io/  # link target
+      meta: A fast, simple and powerful blog framework  # description; empty hides the line
+      avatar:                # optional; falls back to an initial badge
+
+  # switch from the card grid to a compact list once the list reaches this length
+  friendIndex:
+    compactFrom: 12
+  ```
+
+  A short list renders as a card grid (about 110px per entry); a long one switches to a compact
+  list (about 60px per entry, roughly 30 entries per screen). Both use the same columns
+  (three, two below 1200px, one below 640px) — the compact list only drops the card padding, the
+  avatar size and the wrapped description. Leaving `compactFrom` empty means 12; `0` keeps the
+  card grid at any length.
+
+  Entries show the bare host (`https://hexo.io/` becomes `hexo.io`) instead of the full URL.
+  `avatar` takes a site-relative path such as `/images/hexo.png` or a full external URL.
+
 </details>
 
 <details>
@@ -404,6 +429,10 @@ Copy the `_config.yml` file in the theme folder to the blog root directory and r
   ```
 
   The default value is `en`，Optional in the 'languages' file under the theme。
+
+  Only `default.yml` (English) and `zh-CN.yml` are complete. The other languages are missing the
+  14 `about_*` keys used by the About page; a missing key is not an error, those lines simply fall
+  back to English. Copy the keys from `default.yml` to fill them in.
 
 </details>
 
