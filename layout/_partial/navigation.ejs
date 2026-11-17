@@ -1,19 +1,26 @@
 <%
   // rail: true 时只渲染导航菜单本身（用于文章页左导轨），不渲染页头的头像。
   var railNav = typeof rail !== 'undefined' && rail;
+  // 座右铭逐字拆开：外层 span 管首页的逐字出现，内层管悬浮时的波浪跳动，
+  // 两个动画分在两层，悬浮结束时不会把出现动画重播一遍
+  var mottoChars = theme.avatar.motto ? Array.from(String(theme.avatar.motto)) : [];
+  var mottoTyping = is_home() && !(page.current > 1);
 %>
 <% if (!railNav) { %>
 <div class="header">
-  <div class="avatar">
-    <a href="<%- theme.avatar.path %>">
+  <div class="avatar<%= mottoChars.length ? ' avatar--motto' : '' %>">
+    <a href="<%- url_for(theme.avatar.path) %>">
       <!-- 头像取消懒加载，添加no-lazy -->
       <% if (config.lazyload && config.lazyload.enable) { %>
-        <img no-lazy src="<%- theme.avatar.author_photo %>" alt="">
+        <img no-lazy src="<%- url_for(theme.avatar.author_photo) %>" alt="">
       <% } else { %>
-        <img src="<%- theme.avatar.author_photo %>" alt="">
+        <img src="<%- url_for(theme.avatar.author_photo) %>" alt="">
       <% } %>
     </a>
-    <div class="nickname"><a href="<%- theme.avatar.path %>"><%- theme.avatar.author_nickname %></a></div>
+    <div class="nickname"><a href="<%- url_for(theme.avatar.path) %>"><%- theme.avatar.author_nickname %></a></div>
+    <% if (mottoChars.length) { %>
+      <div class="motto<%= mottoTyping ? ' motto--typing' : '' %>"><% mottoChars.forEach(function(ch, i) { %><span style="--i:<%= i %>"><span><%= ch %></span></span><% }); %></div>
+    <% } %>
   </div>
 <% } %>
   <div class="navbar<%= railNav ? ' navbar--rail' : '' %>">
@@ -27,8 +34,8 @@
         for(let item of theme.navbar) {
           if (item.enable) {
       %>
-        <li class="nav-item" data-path="<%- item.path %>">
-          <a href="<%- item.path %>"><%- item.name %></a>
+        <li class="nav-item" data-path="<%- url_for(item.path) %>">
+          <a href="<%- url_for(item.path) %>"><%- item.name %></a>
         </li>
       <%
           }

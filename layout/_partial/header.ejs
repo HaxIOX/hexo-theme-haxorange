@@ -49,15 +49,12 @@
   </title>
 
   <% if (theme.favicon.enable){ %>
-    <link rel="apple-touch-icon" href="<%- theme.favicon.touch_icon %>">
-    <link rel="icon" href="<%- theme.favicon.icon %>">
+    <link rel="apple-touch-icon" href="<%- url_for(theme.favicon.touch_icon) %>">
+    <link rel="icon" href="<%- url_for(theme.favicon.icon) %>">
   <% } %>
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
-  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="<%- url_for('/css/main.css') %>" />
   <% if (page.type === "tags" || is_tag()) { %>
     <%- css(['/css/tags.css']) %>
   <% } %>
@@ -74,12 +71,16 @@
     </script>
     <%- js(['/js/macBlock.js']) %>
   <% } %>
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  <% if (theme.pixel && theme.pixel.enable) { %>
+    <%- css(['/css/pixel.css']) %>
+  <% } %>
 
   <!-- jquery3.3.1 -->
   <% if (theme.cdns && theme.cdns.jquery && theme.cdns.jquery.enable) { %>
     <script defer type="text/javascript" src="<%- theme.cdns.jquery.url %>"></script>
   <% } else { %>
-    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+    <script defer type="text/javascript" src="<%- url_for('/plugins/jquery.min.js') %>"></script>
   <% } %>
 
   <!-- fancybox -->
@@ -87,8 +88,8 @@
     <link href="<%- theme.cdns.fancybox.url.css %>" rel="stylesheet">
     <script defer type="text/javascript" src="<%- theme.cdns.fancybox.url.js %>"></script>
   <% } else { %>
-    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
-    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+    <link href="<%- url_for('/plugins/jquery.fancybox.min.css') %>" rel="stylesheet">
+    <script defer type="text/javascript" src="<%- url_for('/plugins/jquery.fancybox.min.js') %>"></script>
   <% } %>
   <%- js(['/js/fancybox.js']) %>
 

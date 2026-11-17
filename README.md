@@ -532,6 +532,21 @@ footer:
       enable: true
       since: "2024-01-01"
       label: Runtime
+
+# Pixel accents: stepped card corners, a blinking orange cursor after the nickname,
+# a pixel orange on the current navbar item, pixel tools-bar icons, and a cat-tail cord on post pages.
+# false restores the plain look.
+pixel:
+  enable: true
+
+# Load MathJax (~1.1MB) only on pages whose front-matter sets `mathjax: true`
+mathjax:
+  enable: true
+  per_page: true
+
+# Motto under the header nickname on every page, typed out on the home page
+avatar:
+  motto: Ship it, then polish it.
 ```
 
 ### Syntax highlighting compatibility

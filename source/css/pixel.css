@@ -1,0 +1,274 @@
+/*
+  HaxOrange 像素点缀：theme.pixel.enable 为 true 时由 header.ejs 在所有样式之后引入，
+  关掉开关即整体回到原样。只做点缀，不改版式：几何（宽高、外边距）与原样一致。
+  所有动画只在 prefers-reduced-motion: no-preference 下启用。
+*/
+
+:root {
+  /* 切角的一级台阶，两级台阶 = 6px，与原来 8px 圆角的视觉体量接近 */
+  --px: 3px;
+  --pixel-corners: polygon(
+    0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
+    calc(var(--px) * 2) var(--px), calc(var(--px) * 2) 0,
+    calc(100% - var(--px) * 2) 0, calc(100% - var(--px) * 2) var(--px),
+    calc(100% - var(--px)) var(--px), calc(100% - var(--px)) calc(var(--px) * 2),
+    100% calc(var(--px) * 2),
+    100% calc(100% - var(--px) * 2), calc(100% - var(--px)) calc(100% - var(--px) * 2),
+    calc(100% - var(--px)) calc(100% - var(--px)), calc(100% - var(--px) * 2) calc(100% - var(--px)),
+    calc(100% - var(--px) * 2) 100%,
+    calc(var(--px) * 2) 100%, calc(var(--px) * 2) calc(100% - var(--px)),
+    var(--px) calc(100% - var(--px)), var(--px) calc(100% - var(--px) * 2),
+    0 calc(100% - var(--px) * 2)
+  );
+  /* 6×6 像素小橘子：叶、梗、高光各一格，按 2px/格画成 12px */
+  --pixel-orange-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' shape-rendering='crispEdges'%3E%3Crect x='3' y='0' width='1' height='1' fill='%237a4a1f'/%3E%3Crect x='4' y='0' width='1' height='1' fill='%235fa04e'/%3E%3Crect x='1' y='1' width='4' height='1' fill='%23f08a2c'/%3E%3Crect x='0' y='2' width='6' height='3' fill='%23f08a2c'/%3E%3Crect x='1' y='2' width='1' height='1' fill='%23ffc27a'/%3E%3Crect x='1' y='5' width='4' height='1' fill='%23f08a2c'/%3E%3C/svg%3E");
+  /* 文章页灯绳末端换成卷起来的橘猫尾巴尖：8×8 格，尾巴本体占第 2、3 列，深色是条纹 */
+  --pixel-cat-tail: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect x='2' y='0' width='2' height='1' fill='%23f08a2c'/%3E%3Crect x='2' y='1' width='2' height='1' fill='%23b85a1c'/%3E%3Crect x='2' y='2' width='2' height='1' fill='%23f08a2c'/%3E%3Crect x='2' y='3' width='2' height='1' fill='%23f08a2c'/%3E%3Crect x='6' y='3' width='2' height='1' fill='%23b85a1c'/%3E%3Crect x='2' y='4' width='2' height='1' fill='%23b85a1c'/%3E%3Crect x='6' y='4' width='2' height='1' fill='%23f08a2c'/%3E%3Crect x='2' y='5' width='6' height='1' fill='%23f08a2c'/%3E%3Crect x='3' y='6' width='4' height='1' fill='%23f08a2c'/%3E%3C/svg%3E");
+  /* 工具条 8×8 像素图标，按 2px/格画成 16px；只当遮罩用，颜色跟随文字色 */
+  --pixel-icon-top: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M3 2h2v1h-2zM2 3h4v1h-4zM1 4h2v1h-2zM5 4h2v1h-2zM0 5h2v1h-2zM6 5h2v1h-2z'/%3E%3C/svg%3E");
+  --pixel-icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h3v1h-3zM0 1h1v1h-1zM4 1h1v1h-1zM0 2h1v1h-1zM4 2h1v1h-1zM0 3h1v1h-1zM4 3h1v1h-1zM1 4h3v1h-3zM4 5h2v1h-2zM5 6h2v1h-2zM6 7h2v1h-2z'/%3E%3C/svg%3E");
+  --pixel-icon-moon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h2v1h-2zM1 1h2v1h-2zM0 2h2v1h-2zM0 3h2v1h-2zM0 4h2v1h-2zM7 4h1v1h-1zM0 5h3v1h-3zM6 5h2v1h-2zM1 6h6v1h-6zM2 7h4v1h-4z'/%3E%3C/svg%3E");
+  --pixel-icon-sun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h2v1h-2zM1 1h1v1h-1zM6 1h1v1h-1zM2 2h4v1h-4zM0 3h1v1h-1zM2 3h4v1h-4zM7 3h1v1h-1zM0 4h1v1h-1zM2 4h4v1h-4zM7 4h1v1h-1zM2 5h4v1h-4zM1 6h1v1h-1zM6 6h1v1h-1zM3 7h2v1h-2z'/%3E%3C/svg%3E");
+  --pixel-icon-share: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h2v1h-2zM5 1h2v1h-2zM3 2h2v1h-2zM1 3h2v1h-2zM1 4h2v1h-2zM3 5h2v1h-2zM5 6h2v1h-2zM5 7h2v1h-2z'/%3E%3C/svg%3E");
+}
+
+/* ===== ② 像素切角卡片 =====
+   直接对卡片用 clip-path 会把 1px 描边在拐角处剪断，看起来像缺口。这里改成两层伪元素：
+   ::before 铺满边框盒、填描边色，::after 铺满内边距盒、填底色，两层都按台阶裁切，
+   中间露出的 1px 就是一圈沿台阶走的描边。原 border 保留宽度、只设透明，版式不变。 */
+.about-profile-card,
+.about-panel,
+.friend-card {
+  position: relative;
+  z-index: 0;
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+}
+
+.about-profile-card::before,
+.about-panel::before,
+.friend-card::before,
+.about-profile-card::after,
+.about-panel::after,
+.friend-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  clip-path: var(--pixel-corners);
+  pointer-events: none;
+}
+
+.about-profile-card::before,
+.about-panel::before,
+.friend-card::before {
+  inset: -1px;
+  background: var(--pixel-frame, var(--color-divider-md-border));
+}
+
+.about-profile-card::after,
+.about-panel::after,
+.friend-card::after {
+  inset: 0;
+  background: var(--bg-body);
+}
+
+/* 原来是改 border-color，现在描边画在 ::before 上，换成改它读的变量 */
+.friend-card:hover {
+  border-color: transparent;
+  --pixel-frame: var(--color-text-sub);
+}
+
+/* 深色代码窗口：描边与窗口同色系，直接裁切即可；阴影会被 clip-path 一起裁掉，去掉 */
+.markdown-body figure.highlight {
+  border-radius: 0;
+  box-shadow: none;
+  clip-path: var(--pixel-corners);
+}
+
+/* ===== ③ 橘色像素光标 =====
+   默认挂在昵称右侧；配了座右铭时挪到座右铭末尾，像在打字。
+   绝对定位不占宽度，文字仍然在列内居中 */
+.avatar .nickname a,
+.avatar .motto {
+  position: relative;
+}
+
+.avatar .motto {
+  display: inline-block;
+}
+
+.avatar.avatar--motto .nickname a::after {
+  content: none;
+}
+
+.avatar .nickname a::after,
+.avatar .motto::after {
+  content: "";
+  position: absolute;
+  left: calc(100% + 5px);
+  bottom: 4px;
+  width: 8px;
+  height: 8px;
+  background: #f08a2c;
+}
+
+.avatar .motto::after {
+  /* 全角标点自带右侧留白，光标贴近一点 */
+  left: calc(100% + 2px);
+  bottom: 5px;
+  width: 6px;
+  height: 6px;
+}
+
+/* ===== ③ 导航当前项：灰色荧光条换成左侧的像素小橘子 =====
+   只作用于页头导航；文章页左导轨里的竖排导航不挂橘子。
+   橘子在 li 左外边距里（left: -16px），不改变导航行的宽度，各页导航位置不跳。 */
+.header .navbar ul li.active a::after {
+  content: none;
+}
+
+.header .navbar ul li.active a::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -7px;
+  background: var(--pixel-orange-icon) no-repeat center / 12px 12px;
+}
+
+/* 悬浮条从灰色换成浅橘，和小橘子一个色系 */
+.header .navbar ul li a:hover::after {
+  background-color: var(--activity-level-2);
+  opacity: 0.5;
+}
+
+/* 原来 ≤390px 时 li 左右外边距只有 3px，放不下 16px 的橘子，放宽到 8px（导航行允许换行） */
+@media (max-width: 390px) {
+  .header .navbar ul li {
+    margin: 0 8px;
+  }
+}
+
+/* ===== ④ 工具条像素图标 =====
+   盖掉 iconfont 字形，用遮罩画像素图标，背景取 currentColor，深浅色与悬浮色自动跟随。
+   配色切换按钮由 colorscheme.js 切 icon-sun / icon-moon 类，这里按类名取图，脚本不用改。
+   只匹配工具条按钮里的直接子图标，分享弹出的 Twitter、Facebook 品牌图标不受影响。
+   不用 .tools-bar-item 定位：backtotop.js 切显隐时会把整个 className 改写成 back-to-top，这个类会丢。 */
+.tools-bar > div > a > .iconfont::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  background: currentColor;
+  -webkit-mask: var(--pixel-icon) no-repeat center / 16px 16px;
+  mask: var(--pixel-icon) no-repeat center / 16px 16px;
+}
+
+.tools-bar .icon-chevronup { --pixel-icon: var(--pixel-icon-top); }
+.tools-bar .icon-search { --pixel-icon: var(--pixel-icon-search); }
+.tools-bar .icon-moon { --pixel-icon: var(--pixel-icon-moon); }
+.tools-bar .icon-sun { --pixel-icon: var(--pixel-icon-sun); }
+.tools-bar .iconshare { --pixel-icon: var(--pixel-icon-share); }
+
+/* ===== ⑤ 文章页灯绳 → 橘猫尾巴 =====
+   只换外观：绳子变成 4px 宽、带深色条纹的尾巴，灯泡变成卷起的尾巴尖。
+   --cord-right、--bulb-size、命中区和展开高度都沿用 catalog-left.css，交互不变。
+   尾巴尖图里尾巴本体在 16px 宽的第 4~8px，所以尾巴离右边 = --cord-right + 8px。 */
+@media (min-width: 1201px) {
+  .post-sidebar .navbar--rail::before {
+    right: calc(var(--cord-right) + 8px);
+    width: 4px;
+    background: repeating-linear-gradient(to bottom, #f08a2c 0 8px, #b85a1c 8px 10px);
+  }
+
+  .post-sidebar .navbar--rail::after,
+  .post-sidebar .navbar--rail:hover::after,
+  .post-sidebar .navbar--rail:focus-within::after,
+  .post-sidebar .navbar--rail.is-open::after,
+  .post-sidebar .navbar--rail.is-hover::after {
+    border: 0;
+    border-radius: 0;
+    background: var(--pixel-cat-tail) no-repeat center / 16px 16px;
+    box-shadow: none;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .avatar .nickname a::after,
+  .avatar .motto::after {
+    animation: pixel-blink 1.4s steps(1, end) infinite;
+  }
+
+  /* 首页座右铭逐字蹦出来：每字间隔 120ms，出现时向上弹一格。
+     动画在外层 span，悬浮波浪在内层 span，互不覆盖 */
+  .avatar .motto--typing > span {
+    animation: pixel-pop 0.3s steps(3, end) both;
+    animation-delay: calc(var(--i) * 120ms + 200ms);
+  }
+
+  /* 尾巴尖待机时偶尔甩一下，暗示这里能拉；展开后来回摇 */
+  @media (min-width: 1201px) {
+    .post-sidebar .navbar--rail::after {
+      animation: tail-flick 4s steps(1, end) infinite;
+    }
+
+    .post-sidebar .navbar--rail:hover::after,
+    .post-sidebar .navbar--rail:focus-within::after,
+    .post-sidebar .navbar--rail.is-open::after,
+    .post-sidebar .navbar--rail.is-hover::after {
+      animation: tail-wag 0.8s steps(1, end) infinite;
+    }
+  }
+
+  /* 悬浮座右铭：字按顺序一个接一个跳，像一道波浪 */
+  .avatar .motto:hover > span > span {
+    animation: pixel-hop 0.45s steps(1, end) both;
+    animation-delay: calc(var(--i) * 60ms);
+  }
+
+  /* 悬浮当前项时小橘子按像素一格一格地跳一下 */
+  .header .navbar ul li.active:hover a::before {
+    animation: pixel-hop 0.45s steps(1, end);
+  }
+
+  /* 工具条图标悬浮时也跳一下，与导航小橘子同一个动作 */
+  .tools-bar > div > a:hover > .iconfont::before {
+    animation: pixel-hop 0.45s steps(1, end);
+  }
+}
+
+@keyframes pixel-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pixel-pop {
+  0% { visibility: hidden; transform: translateY(0); }
+  1% { visibility: visible; transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes tail-flick {
+  0%, 85%, 100% { transform: translateX(0); }
+  88% { transform: translateX(2px); }
+  92% { transform: translateX(-2px); }
+}
+
+@keyframes tail-wag {
+  0%, 50% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+@keyframes pixel-hop {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+  60% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}

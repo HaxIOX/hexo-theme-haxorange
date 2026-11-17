@@ -544,6 +544,19 @@ footer:
       enable: true
       since: "2024-01-01"
       label: 运行时间
+
+# 像素点缀：卡片像素切角、昵称后的橘色光标、导航当前项的像素小橘子、工具条像素图标、文章页的猫尾巴灯绳；false 回到原样
+pixel:
+  enable: true
+
+# MathJax（约 1.1MB）只在 front-matter 写了 mathjax: true 的页面加载
+mathjax:
+  enable: true
+  per_page: true
+
+# 页头昵称下方的座右铭，所有页面显示，首页打开时逐字打出
+avatar:
+  motto: 干饭干饭！
 ```
 
 ### 代码高亮兼容配置

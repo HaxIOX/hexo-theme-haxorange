@@ -137,6 +137,14 @@
   overflow-wrap: anywhere;
   word-break: break-word;
 }
+/* Highlight.js 每行输出 <span class="line">…</span><br>：.line 已是块级、自己会换行，
+   再加 <br> 就成了隔行空一行（线上站点实测如此）。隐藏 <br>，空行补一个空格撑起行高。 */
+.markdown-body figure.highlight .line + br {
+  display: none;
+}
+.markdown-body figure.highlight .line:empty::before {
+  content: " ";
+}
 .markdown-body figure.highlight .line.marked {
   background-color: #2c313a;
 }
@@ -204,76 +212,116 @@
   color: #e6e6e6;
 }
 
-/* ===== 语法配色：Atom One Dark（在 #282c34 上对比更清晰） ===== */
+/* ===== 语法配色：One Dark Pro，对齐 VSCode 同名主题 =====
+   同一套类名同时覆盖两种输出：Highlight.js（hexo hljs: false，无前缀，如 keyword、title function_）
+   和 Prism（token keyword、token class-name）。按 VSCode 的取色分组，后面的组合选择器覆盖前面的单类名。 */
+/* 注释：VSCode 里是 #7f848e 斜体。旧的 #5c6370 在 #282c34 上对比度只有约 2.5:1，看着发虚 */
 .markdown-body figure.highlight pre .comment,
-.markdown-body figure.highlight pre .title {
-  color: #5c6370;
+.markdown-body figure.highlight pre .quote,
+.markdown-body figure.highlight pre .prolog,
+.markdown-body figure.highlight pre .doctype,
+.markdown-body figure.highlight pre .cdata {
+  color: #7f848e;
+  font-style: italic;
 }
 
-.markdown-body figure.highlight pre .variable,
-.markdown-body figure.highlight pre .attribute,
-.markdown-body figure.highlight pre .tag,
-.markdown-body figure.highlight pre .regexp,
-.markdown-body figure.highlight pre .ruby .constant,
-.markdown-body figure.highlight pre .xml .tag .title,
-.markdown-body figure.highlight pre .xml .pi,
-.markdown-body figure.highlight pre .xml .doctype,
-.markdown-body figure.highlight pre .html .doctype,
-.markdown-body figure.highlight pre .css .id,
-.markdown-body figure.highlight pre .css .class,
-.markdown-body figure.highlight pre .css .pseudo {
-  color: #e06c75;
-}
-
-.markdown-body figure.highlight pre .number,
-.markdown-body figure.highlight pre .preprocessor,
-.markdown-body figure.highlight pre .built_in,
-.markdown-body figure.highlight pre .literal,
-.markdown-body figure.highlight pre .params,
-.markdown-body figure.highlight pre .constant {
-  color: #d19a66;
-}
-
-.markdown-body figure.highlight pre .class,
-.markdown-body figure.highlight pre .ruby .class .title,
-.markdown-body figure.highlight pre .css .rules .attribute {
-  color: #98c379;
-}
-
-.markdown-body figure.highlight pre .string,
-.markdown-body figure.highlight pre .value,
-.markdown-body figure.highlight pre .inheritance,
-.markdown-body figure.highlight pre .header,
-.markdown-body figure.highlight pre .ruby .symbol,
-.markdown-body figure.highlight pre .xml .cdata {
-  color: #98c379;
-}
-
-.markdown-body figure.highlight pre .css .hexcolor {
-  color: #56b6c2;
-}
-
-.markdown-body figure.highlight pre .function,
-.markdown-body figure.highlight pre .python .decorator,
-.markdown-body figure.highlight pre .python .title,
-.markdown-body figure.highlight pre .ruby .function .title,
-.markdown-body figure.highlight pre .ruby .title .keyword,
-.markdown-body figure.highlight pre .perl .sub,
-.markdown-body figure.highlight pre .javascript .title,
-.markdown-body figure.highlight pre .coffeescript .title {
-  color: #61afef;
-}
-
+/* 关键字、基础类型（hljs 把 int、char 标成 type）、预处理指令（#include、#define） */
 .markdown-body figure.highlight pre .keyword,
-.markdown-body figure.highlight pre .javascript .function {
+.markdown-body figure.highlight pre .selector-tag,
+.markdown-body figure.highlight pre .atrule,
+.markdown-body figure.highlight pre .important,
+.markdown-body figure.highlight pre .directive,
+.markdown-body figure.highlight pre .directive-hash,
+.markdown-body figure.highlight pre .macro.property,
+.markdown-body figure.highlight pre .meta,
+.markdown-body figure.highlight pre .meta .keyword,
+.markdown-body figure.highlight pre .type {
   color: #c678dd;
 }
 
-/* highlight.js 的函数名类为 title function_，覆盖上方 .title 的灰色 */
-.markdown-body figure.highlight pre .function_ {
+/* 函数名、方法调用 */
+.markdown-body figure.highlight pre .function,
+.markdown-body figure.highlight pre .function_,
+.markdown-body figure.highlight pre .title,
+.markdown-body figure.highlight pre .section,
+.markdown-body figure.highlight pre .macro-name {
   color: #61afef;
 }
-/* shebang、元信息行 */
-.markdown-body figure.highlight pre .meta {
-  color: #5c6370;
+
+/* 字符串 */
+.markdown-body figure.highlight pre .string,
+.markdown-body figure.highlight pre .char,
+.markdown-body figure.highlight pre .attr-value,
+.markdown-body figure.highlight pre .template-string,
+.markdown-body figure.highlight pre .addition,
+.markdown-body figure.highlight pre .inserted,
+.markdown-body figure.highlight pre .meta .string {
+  color: #98c379;
+}
+
+/* 数字、布尔、常量 */
+.markdown-body figure.highlight pre .number,
+.markdown-body figure.highlight pre .boolean,
+.markdown-body figure.highlight pre .literal,
+.markdown-body figure.highlight pre .constant,
+.markdown-body figure.highlight pre .attr,
+.markdown-body figure.highlight pre .attr-name,
+.markdown-body figure.highlight pre .attribute,
+.markdown-body figure.highlight pre .selector-class,
+.markdown-body figure.highlight pre .symbol,
+.markdown-body figure.highlight pre .bullet,
+.markdown-body figure.highlight pre .link,
+.markdown-body figure.highlight pre .url {
+  color: #d19a66;
+}
+
+/* 类名、内置对象（console、Math 等） */
+.markdown-body figure.highlight pre .class-name,
+.markdown-body figure.highlight pre .class_,
+.markdown-body figure.highlight pre .title.class_,
+.markdown-body figure.highlight pre .builtin,
+.markdown-body figure.highlight pre .built_in,
+.markdown-body figure.highlight pre .namespace {
+  color: #e5c07b;
+}
+
+/* 变量、属性、标签名 */
+.markdown-body figure.highlight pre .variable,
+.markdown-body figure.highlight pre .property,
+.markdown-body figure.highlight pre .tag,
+.markdown-body figure.highlight pre .name,
+.markdown-body figure.highlight pre .selector-id,
+.markdown-body figure.highlight pre .template-variable,
+.markdown-body figure.highlight pre .deletion,
+.markdown-body figure.highlight pre .deleted {
+  color: #e06c75;
+}
+
+/* 运算符、正则、转义、模板插值的括号 */
+.markdown-body figure.highlight pre .operator,
+.markdown-body figure.highlight pre .regexp,
+.markdown-body figure.highlight pre .regex,
+.markdown-body figure.highlight pre .entity,
+.markdown-body figure.highlight pre .interpolation-punctuation,
+.markdown-body figure.highlight pre .subst {
+  color: #56b6c2;
+}
+
+/* 标点、函数参数（hljs 的 params 连括号一起包住）保持正文色 */
+.markdown-body figure.highlight pre .punctuation,
+.markdown-body figure.highlight pre .params {
+  color: #abb2bf;
+}
+
+/* this、self 等语言变量 */
+.markdown-body figure.highlight pre .variable.language_ {
+  color: #e5c07b;
+}
+
+.markdown-body figure.highlight pre .emphasis {
+  font-style: italic;
+}
+
+.markdown-body figure.highlight pre .strong {
+  font-weight: bold;
 }

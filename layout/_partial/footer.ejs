@@ -25,7 +25,7 @@
               <i class="iconfont icon-<%- item.icon %>"></i>
             </a>
             <% } else { %>
-              <a title="<%- item.name %>" href="<%- item.path %>">
+              <a title="<%- item.name %>" href="<%- url_for(item.path) %>">
                 <i class="iconfont icon-<%- item.icon %>"></i>
               </a>
               <% } %>
@@ -43,7 +43,7 @@
     %>
     <div class="footer-more">
       <% if (item.path) { %>
-        <a href="<%- item.path %>"><%- item.name %></a>
+        <a href="<%- url_for(item.path) %>"><%- item.name %></a>
       <% } else { %>
         <%- item.name %>
       <% } %>  

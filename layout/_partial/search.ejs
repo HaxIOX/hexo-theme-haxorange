@@ -185,7 +185,7 @@
     }
 
     var getSearchFile = function() {
-        var path = "/search.xml";
+        var path = "<%- url_for('/search.xml') %>";
         searchFunc(path, 'search-input', 'search-result');
     }
   </script>

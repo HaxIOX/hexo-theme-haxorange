@@ -300,6 +300,19 @@ a:hover {
   padding-top: 10px;
 }
 
+/* 昵称下方的座右铭（avatar.motto）。所有页面都显示，页头高度各页一致，导航不跳 */
+.avatar .motto {
+  padding-top: 6px;
+  font-size: 1.4rem;
+  color: var(--color-text-sub);
+  /* 每个字是 inline-block，空格字符要靠 pre 才不会被折叠成 0 宽 */
+  white-space: pre;
+}
+
+.avatar .motto span {
+  display: inline-block;
+}
+
 .content {
   clear: both;
   padding: 0 20px;
@@ -359,6 +372,12 @@ a:hover {
   opacity: 0.55;
   background-color: gray;
   width: 89%;
+}
+
+/* 窄屏导航折行时各行也居中：li 是 inline-block，居中要设在 ul 上。
+   左导轨里的竖排导航（.navbar--rail）li 自己设了 text-align: left，不受影响 */
+.navbar ul {
+  text-align: center;
 }
 
 @media (max-width: 888px) {

@@ -20,9 +20,10 @@ const switchMode = () => {
 
 switchHandle.addEventListener('click', switchMode, false)
 
-const currColorMode = localStorage.getItem('color-mode')
-if (currColorMode === 'light') {
-    themeIcon.classList = 'iconfont icon-moon'
-} else {
+// 图标跟随页面实际配色：header.ejs 只在存过时改写 color-mode，没存过就是 layout.ejs 里的 light。
+// 原来按 localStorage 判断，没存过时被当成深色，浅色页面却显示太阳。
+if (html.getAttribute('color-mode') === 'dark') {
     themeIcon.classList = 'iconfont icon-sun'
+} else {
+    themeIcon.classList = 'iconfont icon-moon'
 }

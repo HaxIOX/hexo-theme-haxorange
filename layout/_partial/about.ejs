@@ -4,7 +4,6 @@
   var avatar = theme.avatar || {};
   var skills = Array.isArray(about.skills) ? about.skills : [];
   var profileLinks = Array.isArray(profile.links) ? profile.links : [];
-  var profileAvatar = profile.avatar || avatar.author_photo;
   var profileName = profile.name || avatar.author_nickname || config.author || '';
   var allPosts = site.posts && site.posts.data ? site.posts.data.slice() : [];
   var allTags = site.tags && site.tags.data ? site.tags.data : [];
@@ -65,9 +64,7 @@
 
 <div class="container about-index">
   <section class="about-profile-card">
-    <% if (profileAvatar) { %>
-      <img class="about-avatar" src="<%= url_for(profileAvatar) %>" alt="<%= profileName %>">
-    <% } %>
+    <%# 页头已经有头像、昵称和座右铭，卡片里只放页头没有的信息 %>
     <div class="about-profile-main">
       <% if (profileName) { %><h1><%= profileName %></h1><% } %>
       <% if (profile.bio) { %><p class="about-bio"><%= profile.bio %></p><% } %>
@@ -82,13 +79,13 @@
         </div>
       <% } %>
     </div>
-  </section>
 
-  <section class="about-stats" aria-label="<%= __('about_blog_stats') %>">
-    <div><strong><%= allPosts.length %></strong><span><%= __('about_posts') %></span></div>
-    <div><strong><%= allTags.length %></strong><span><%= __('about_tags') %></span></div>
-    <div><strong><%= allCategories.length %></strong><span><%= __('about_categories') %></span></div>
-    <div><strong><%= runtimeDays %></strong><span><%= __('about_runtime_days') %></span></div>
+    <div class="about-stats" role="group" aria-label="<%= __('about_blog_stats') %>">
+      <div><strong><%= allPosts.length %></strong><span><%= __('about_posts') %></span></div>
+      <div><strong><%= allTags.length %></strong><span><%= __('about_tags') %></span></div>
+      <div><strong><%= allCategories.length %></strong><span><%= __('about_categories') %></span></div>
+      <div><strong><%= runtimeDays %></strong><span><%= __('about_runtime_days') %></span></div>
+    </div>
   </section>
 
   <% if ((page.content || '').trim()) { %>

@@ -1,10 +1,11 @@
 <!-- LaTex Display -->
-<% if (theme.mathjax && theme.mathjax.enable) { %>
-  <% if (theme.cdns && theme.cdns.mathjax && theme.cdns.mathjax.enable) { %>
-    <script async type="text/javascript" src="<%- theme.cdns.mathjax.url %>"></script>
-  <% } else { %>
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  <% } %>
+<%
+  // per_page 打开后，只有 front-matter 写了 mathjax: true 的页面才加载（tex-chtml.js 约 1.1MB）
+  var mathjaxOn = theme.mathjax && theme.mathjax.enable
+    && (!theme.mathjax.per_page || page.mathjax === true);
+%>
+<% if (mathjaxOn) { %>
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -12,4 +13,9 @@
       }
     }
   </script>
+  <% if (theme.cdns && theme.cdns.mathjax && theme.cdns.mathjax.enable) { %>
+    <script async type="text/javascript" src="<%- theme.cdns.mathjax.url %>"></script>
+  <% } else { %>
+    <script async type="text/javascript" src="<%- url_for('/plugins/mathjax/tex-chtml.js') %>"></script>
+  <% } %>
 <% } %>
