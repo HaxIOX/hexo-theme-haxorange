@@ -534,7 +534,9 @@ footer:
       label: Runtime
 
 # Pixel accents: stepped card corners, a blinking orange cursor after the nickname,
-# a pixel orange on the current navbar item, pixel tools-bar icons, and a cat-tail cord on post pages.
+# a pixel orange on the current navbar item, pixel tools-bar icons, a cat-tail cord on post pages,
+# a sleeping tabby cat at the end of each post, orange text selection, a hop on avatar hover,
+# and a launch animation on the back-to-top arrow.
 # false restores the plain look.
 pixel:
   enable: true

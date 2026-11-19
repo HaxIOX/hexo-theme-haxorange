@@ -1,7 +1,7 @@
 /* light scheme */
 :root[color-mode="light"] {
-  /* Warm paper tone for the light theme. */
-  --bg-body: #fefcf8;
+  /* Plain white for the light theme; blocks keep a light warm tint. */
+  --bg-body: #ffffff;
   --color-text-base: #666;
   --color-text-a: #666;
   --color-text-a-hover: #000000;
@@ -10,16 +10,16 @@
   --color-text-md-title: #24292e;
   --color-text-md-content: #24292e;
   --color-text-md-code: #e96900;
-  --bg-text-md-code: #f8f8f8;
-  --bg-block-md-quote: #EEEEEE;
+  --bg-text-md-code: #f6f1e7;
+  --bg-block-md-quote: rgb(240 138 44 / 3%);
+  --color-border-md-quote: #f5b072;
+  --color-md-hr: #e6dfd2;
   --color-block-md-quote: #555555;
   --color-divider-md-border: #5858581a;
   --bg-content-search: rgb(255 255 255 / 60%);
-  --bg-block-md-pre: #e6e6e6;
+  --bg-block-md-pre: #ece6da;
   --color-text-md-pre: #555555;
-  --bg-block-md-table: #ffffff;
-  --bg-block-md-table-2: #f6f8fa;
-  --color-border-md-table: #dfe2e5;
+  --color-border-md-table: #e6dfd2;
   --activity-level-0: #ebe6dc;
   --activity-level-1: #f7d9aa;
   --activity-level-2: #edae61;
@@ -40,13 +40,13 @@
   --color-text-md-code: #e96900;
   --bg-text-md-code: #3b4252;
   --bg-block-md-quote: #3a4252;
+  --color-border-md-quote: #f08a2c;
+  --color-md-hr: #4c566a;
   --color-block-md-quote: #abb9cf;
   --color-divider-md-border: #ffffff4f;
   --bg-content-search: rgb(59 66 82 / 60%);
   --bg-block-md-pre: #3a4252;
   --color-text-md-pre: #abb9cf;
-  --bg-block-md-table: #2E3440;
-  --bg-block-md-table-2: #313744;
   --color-border-md-table: #4c566a;
   --activity-level-0: #444b59;
   --activity-level-1: #704b2c;

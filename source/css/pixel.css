@@ -1,6 +1,7 @@
 /*
   HaxOrange 像素点缀：theme.pixel.enable 为 true 时由 header.ejs 在所有样式之后引入，
-  关掉开关即整体回到原样。只做点缀，不改版式：几何（宽高、外边距）与原样一致。
+  关掉开关即整体回到原样。只做点缀，不改版式：几何（宽高、外边距）与原样一致，
+  唯一例外是文章正文末尾的睡猫，会多占约 120px 高度。
   所有动画只在 prefers-reduced-motion: no-preference 下启用。
 */
 
@@ -198,6 +199,32 @@
   }
 }
 
+/* ===== ⑥ 文末睡觉的狸花猫 =====
+   只在文章页正文末尾出现，关于、友链等页面也用 post.ejs，但没有 .post-details。
+   这个伪元素原本是 github-markdown.css 的清除浮动，保留 clear: both，只是改成块并画上猫。
+   猫 22×10 格、z 10×9 格；猫按 4px/格画，z 按 3px/格画得小一点；z 在猫的右上角，动画时一格一格往上飘。 */
+.post-details .markdown-body::after {
+  --pixel-sleep-cat: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2022%2010'%20shape-rendering='crispEdges'%3E%3Crect%20x='2'%20y='0'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='6'%20y='0'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='1'%20y='1'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='2'%20y='1'%20width='1'%20height='1'%20fill='%23e59a94'/%3E%3Crect%20x='3'%20y='1'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='5'%20y='1'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='6'%20y='1'%20width='1'%20height='1'%20fill='%23e59a94'/%3E%3Crect%20x='7'%20y='1'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='1'%20y='2'%20width='7'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='12'%20y='2'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='13'%20y='2'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='15'%20y='2'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='16'%20y='2'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='18'%20y='2'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='0'%20y='3'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='2'%20y='3'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='3'%20y='3'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='4'%20y='3'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='5'%20y='3'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='6'%20y='3'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='7'%20y='3'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='10'%20y='3'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='12'%20y='3'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='15'%20y='3'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='16'%20y='3'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='18'%20y='3'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='19'%20y='3'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='0'%20y='4'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='1'%20y='4'%20width='2'%20height='1'%20fill='%233d342d'/%3E%3Crect%20x='3'%20y='4'%20width='3'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='6'%20y='4'%20width='2'%20height='1'%20fill='%233d342d'/%3E%3Crect%20x='8'%20y='4'%20width='4'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='12'%20y='4'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='13'%20y='4'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='15'%20y='4'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='16'%20y='4'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='18'%20y='4'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='19'%20y='4'%20width='3'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='0'%20y='5'%20width='4'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='4'%20y='5'%20width='1'%20height='1'%20fill='%23e59a94'/%3E%3Crect%20x='5'%20y='5'%20width='17'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='1'%20y='6'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='3'%20y='6'%20width='3'%20height='1'%20fill='%23e6dccf'/%3E%3Crect%20x='6'%20y='6'%20width='16'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='2'%20y='7'%20width='1'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='3'%20y='7'%20width='3'%20height='1'%20fill='%23e6dccf'/%3E%3Crect%20x='6'%20y='7'%20width='15'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='21'%20y='7'%20width='1'%20height='1'%20fill='%238c7e70'/%3E%3Crect%20x='1'%20y='8'%20width='3'%20height='1'%20fill='%23e6dccf'/%3E%3Crect%20x='5'%20y='8'%20width='3'%20height='1'%20fill='%23e6dccf'/%3E%3Crect%20x='8'%20y='8'%20width='13'%20height='1'%20fill='%238c7e70'/%3E%3Crect%20x='8'%20y='9'%20width='2'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='10'%20y='9'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='12'%20y='9'%20width='2'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='14'%20y='9'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='16'%20y='9'%20width='2'%20height='1'%20fill='%235f5348'/%3E%3Crect%20x='18'%20y='9'%20width='2'%20height='1'%20fill='%23a39484'/%3E%3Crect%20x='20'%20y='9'%20width='1'%20height='1'%20fill='%235f5348'/%3E%3C/svg%3E");
+  --pixel-zzz: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%209'%20shape-rendering='crispEdges'%3E%3Crect%20x='5'%20y='0'%20width='5'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='8'%20y='1'%20width='1'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='7'%20y='2'%20width='1'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='6'%20y='3'%20width='1'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='5'%20y='4'%20width='5'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='0'%20y='5'%20width='4'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='2'%20y='6'%20width='1'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='1'%20y='7'%20width='1'%20height='1'%20fill='%239aa3ad'/%3E%3Crect%20x='0'%20y='8'%20width='4'%20height='1'%20fill='%239aa3ad'/%3E%3C/svg%3E");
+  display: block;
+  clear: both;
+  width: 112px;
+  height: 64px;
+  margin: 56px auto 0;
+  background:
+    var(--pixel-zzz) no-repeat 80px 4px / 30px 27px,
+    var(--pixel-sleep-cat) no-repeat 0 24px / 88px 40px;
+}
+
+/* ===== ⑦ 选中文字：淡橘底，深色底上加深一档才看得清 ===== */
+::selection {
+  background: rgb(240 138 44 / 22%);
+}
+
+:root[color-mode="dark"] ::selection {
+  background: rgb(240 138 44 / 35%);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .avatar .nickname a::after,
   .avatar .motto::after {
@@ -236,6 +263,23 @@
     animation: pixel-hop 0.45s steps(1, end);
   }
 
+  /* 文末小猫的 z 一格一格往上飘，飘到顶再从下面重来 */
+  .post-details .markdown-body::after {
+    animation: zzz-float 2.4s steps(1, end) infinite;
+  }
+
+  /* 头像悬浮时整张跳一下：页头头像和文章页导轨头像 */
+  .avatar a:hover img,
+  .sidebar-avatar:hover {
+    animation: avatar-hop 0.5s steps(1, end);
+  }
+
+  /* 回到顶部：点击后箭头先蹲一下，冲出去，再从下面落回原位。
+     is-launching 由 backtotop.js 加在 <a> 上；不加在外层 div，滚动时那里的 className 会被整个改写 */
+  .tools-bar .back-to-top > a.is-launching > .iconfont::before {
+    animation: pixel-launch 0.7s steps(1, end);
+  }
+
   /* 工具条图标悬浮时也跳一下，与导航小橘子同一个动作 */
   .tools-bar > div > a:hover > .iconfont::before {
     animation: pixel-hop 0.45s steps(1, end);
@@ -271,4 +315,28 @@
   30% { transform: translateY(-4px); }
   60% { transform: translateY(-2px); }
   100% { transform: translateY(0); }
+}
+
+@keyframes zzz-float {
+  0% { background-position: 80px 4px, 0 24px; }
+  33% { background-position: 80px 0, 0 24px; }
+  66% { background-position: 80px -4px, 0 24px; }
+}
+
+@keyframes avatar-hop {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-8px); }
+  50% { transform: translateY(-12px); }
+  75% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pixel-launch {
+  0% { transform: translateY(0); }
+  15% { transform: translateY(2px); }
+  30% { transform: translateY(-6px); }
+  45% { transform: translateY(-14px); opacity: 1; }
+  55% { transform: translateY(8px); opacity: 0; }
+  70% { transform: translateY(4px); opacity: 1; }
+  85% { transform: translateY(0); }
 }

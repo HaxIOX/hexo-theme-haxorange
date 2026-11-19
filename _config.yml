@@ -296,9 +296,12 @@ codeBlock:
     enable: true
 
 # Pixel accents: stepped card corners, a blinking orange cursor after the nickname,
-# a pixel orange marking the current navbar item, pixel tools-bar icons, and a cat-tail cord on post pages.
+# a pixel orange marking the current navbar item, pixel tools-bar icons, a cat-tail cord on post pages,
+# a sleeping tabby cat at the end of each post, orange text selection, a hop on avatar hover,
+# and a launch animation on the back-to-top arrow.
 # false restores the plain look.
-# 像素点缀：卡片像素切角、橘色光标、导航当前项的像素小橘子、工具条像素图标、文章页的猫尾巴灯绳
+# 像素点缀：卡片像素切角、橘色光标、导航当前项的像素小橘子、工具条像素图标、文章页的猫尾巴灯绳、
+# 文末睡觉的狸花猫、淡橘色选中文字、头像悬浮跳动、回到顶部箭头的发射动画
 pixel:
   enable: true
 

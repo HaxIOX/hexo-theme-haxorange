@@ -5,6 +5,8 @@ function isHidden() {
     document.querySelector(".back-to-top").className = "back-to-top";
   } else {
     document.querySelector(".back-to-top").className = "back-to-top hidden";
+    // 隐藏会打断发射动画、收不到 animationend，这里摘掉，否则下次出现时会自己重播
+    document.querySelector(".back-to-top > a").classList.remove("is-launching");
   }
 }
 
@@ -31,3 +33,14 @@ const backToTop = () => {
 isHidden()
 document.addEventListener("scroll", isHidden, false);
 document.querySelector(".back-to-top").addEventListener("click", backToTop, false);
+
+// 点击时给箭头加发射动画（样式在 pixel.css），动画结束摘掉，下次点击能重播
+const backToTopLink = document.querySelector(".back-to-top > a");
+backToTopLink.addEventListener("click", () => {
+  backToTopLink.classList.remove("is-launching");
+  void backToTopLink.offsetWidth; // 强制回流，连点时动画从头播
+  backToTopLink.classList.add("is-launching");
+}, false);
+backToTopLink.addEventListener("animationend", (e) => {
+  if (e.animationName === "pixel-launch") backToTopLink.classList.remove("is-launching");
+}, false);
