@@ -198,17 +198,17 @@
 }
 
 .markdown-body a {
-  color: var(--color-text-a);
+  color: var(--color-md-link);
   text-decoration: none;
-  border-bottom: 1px solid var(--color-text-a);
+  border-bottom: 1px solid var(--color-md-link-line);
   font-size: 1em;
   transition: color 0.3s;
 }
 
 .markdown-body a:hover {
   text-decoration: none;
-  color: var(--color-text-a-hover);
-  border-bottom: 1px solid var(--color-text-a-hover);
+  color: var(--color-md-link);
+  border-bottom: 1px solid var(--color-md-link);
 }
 
 .markdown-body strong {

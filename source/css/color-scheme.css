@@ -9,8 +9,11 @@
   --color-text-sub: #8e8e8e;
   --color-text-md-title: #24292e;
   --color-text-md-content: #24292e;
-  --color-text-md-code: #e96900;
-  --bg-text-md-code: #f6f1e7;
+  /* 代码、链接这类要被认出来的元素用冷色，橘色只留给装饰 */
+  --color-text-md-code: #3d5a80;
+  --bg-text-md-code: #eef1f5;
+  --color-md-link: #2f6fb0;
+  --color-md-link-line: rgb(47 111 176 / 35%);
   --bg-block-md-quote: rgb(240 138 44 / 3%);
   --color-border-md-quote: #f5b072;
   --color-md-hr: #e6dfd2;
@@ -37,8 +40,10 @@
   --color-text-sub: #8e8e8e;
   --color-text-md-title: #eceff4;
   --color-text-md-content: #eceff4;
-  --color-text-md-code: #e96900;
+  --color-text-md-code: #a3bfdc;
   --bg-text-md-code: #3b4252;
+  --color-md-link: #88b0dc;
+  --color-md-link-line: rgb(136 176 220 / 40%);
   --bg-block-md-quote: #3a4252;
   --color-border-md-quote: #f08a2c;
   --color-md-hr: #4c566a;
